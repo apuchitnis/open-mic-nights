@@ -11,6 +11,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bulma": "^0.7.5",
+    "google-spreadsheet": "^2.0.8",
     "parcel": "^1.12.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
