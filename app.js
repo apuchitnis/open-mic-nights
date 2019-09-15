@@ -5,39 +5,16 @@ import GoogleSpreadsheet from "google-spreadsheet";
 class Results extends React.Component {
     constructor(props) {
 	super(props);
-	this.state = {
-	    results: this.props.results
-	};
-	this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(e) {
-	let currentList = this.props.results;
-	let newList = [];
-
-	if (e.target.value !== "") {
-	    newList = currentList.filter(item => {
-		const lc = item.toLowerCase();
-		const filter = e.target.value.toLowerCase();
-		return lc.includes(filter);
-	    });
-	} else {
-	    newList = currentList;
-	}
-
-	this.setState({
-	    results: newList
-	});
     }
 
     render() {
-	console.log("results rendering with " + this.state.results.length)
+	console.log("results rendering with " + this.props.results.length)
 	return (
 	    <div>
 		<input
 		    type="text"
 		    className="input"
-		    onChange={this.handleChange}
+		    onChange={this.props.handleChange}
 		    placeholder="Search..."
 		/>
 		<ul>
@@ -54,6 +31,7 @@ class App extends React.Component {
     constructor(props) {
 	super(props);
 	this.state = {
+	    rows: [],
 	    results: []
 	};
     }
@@ -84,7 +62,8 @@ class App extends React.Component {
 		console.log("results " + results)
 		this.setState(
 		    {
-			results: results
+			results: results,
+			rows: results
 		    },
 		    () => console.log("updated s")
 		);
@@ -99,11 +78,33 @@ class App extends React.Component {
 	    <div className="content">
 		<div className="container">
 		    <section className="section">
-			<Results results={this.state.results} />
+			<Results 
+			    results={this.state.results}
+			    handleChange={(e) => this.handleChange(e)}
+			/>
 		    </section>
 		</div>
 	    </div>
 	);
+    }
+
+    handleChange(e) {
+	let currentList = this.state.rows;
+	let newList = [];
+
+	if (e.target.value !== "") {
+	    newList = currentList.filter(item => {
+		const lc = item.toLowerCase();
+		const filter = e.target.value.toLowerCase();
+		return lc.includes(filter);
+	    });
+	} else {
+	    newList = currentList;
+	}
+
+	this.setState({
+	    results: newList
+	});
     }
 }
 
