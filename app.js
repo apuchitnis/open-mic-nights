@@ -50,7 +50,7 @@ class App extends React.Component {
 	    }
 	    const sheet = info.worksheets[0];
 
-	    sheet.getRows({ offset: 1, limit: 11 }, (err, response) => {
+	    sheet.getRows({ offset: 1, limit: 1000 }, (err, response) => {
 		if (err) {
 		    console.log(err);
 		    return;
@@ -67,7 +67,6 @@ class App extends React.Component {
 		    },
 		    () => console.log("updated s")
 		);
-		this.render()
 	    });
 	});
     }
@@ -89,21 +88,18 @@ class App extends React.Component {
     }
 
     handleChange(e) {
-	let currentList = this.state.rows;
-	let newList = [];
+	let newResults = this.state.rows;
 
 	if (e.target.value !== "") {
-	    newList = currentList.filter(item => {
+	    newResults = newResults.filter(item => {
 		const lc = item.toLowerCase();
 		const filter = e.target.value.toLowerCase();
 		return lc.includes(filter);
 	    });
-	} else {
-	    newList = currentList;
 	}
 
 	this.setState({
-	    results: newList
+	    results: newResults
 	});
     }
 }
