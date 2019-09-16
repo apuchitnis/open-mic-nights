@@ -8,7 +8,6 @@ class Results extends React.Component {
     }
 
     render() {
-	console.log("results rendering with " + this.props.results.length)
 	return (
 	    <div>
 		<input
@@ -17,11 +16,26 @@ class Results extends React.Component {
 		    onChange={this.props.handleChange}
 		    placeholder="Search..."
 		/>
-		<ul>
-		    {this.props.results.map(item => (
-			<li key={item}>{item} &nbsp;</li>
-		    ))}
-		</ul>
+		<table className="table">
+		    <thead>
+			<tr>
+			    <th>name</th>
+			    <th>city</th>
+			    <th>venue</th>
+			    <th>bringer</th>
+			</tr>
+		    </thead>
+		    <tbody>
+			{this.props.results.map(item => (
+			    <tr key={item.comedyclubfestival}>
+				<th>{item.comedyclubfestival}</th>
+				<td>{item.city}</td>
+				<td>{item.venue}</td>
+				<td>{item.bringer}</td>
+			    </tr>
+			))}
+		    </tbody>
+		</table>
 	    </div>
 	);
     }
@@ -50,29 +64,28 @@ class App extends React.Component {
 	    }
 	    const sheet = info.worksheets[0];
 
-	    sheet.getRows({ offset: 1, limit: 1000 }, (err, response) => {
+	    sheet.getRows({ offset: 1, limit: 10 }, (err, response) => {
 		if (err) {
 		    console.log(err);
 		    return;
 		}
 
-		const results = response.map(row => {
-		    return row.comedyclubfestival;
-		});
-		console.log("results " + results)
+		var keys = Object.keys(response[0])
+		console.log(response[0])
+		console.log(keys)
+
 		this.setState(
 		    {
-			results: results,
-			rows: results
+			results: response,
+			rows: response
 		    },
-		    () => console.log("updated s")
+		    () => console.log("updated")
 		);
 	    });
 	});
     }
 
     render() {
-	console.log("app rendering with " + this.state.results.length)
 	return (
 	    <div className="content">
 		<div className="container">
@@ -92,9 +105,11 @@ class App extends React.Component {
 
 	if (e.target.value !== "") {
 	    newResults = newResults.filter(item => {
-		const lc = item.toLowerCase();
+		const comedyclubfestival = item.comedyclubfestival.toLowerCase();
+		const city = item.city.toLowerCase();
+		const venue = item.venue.toLowerCase();
 		const filter = e.target.value.toLowerCase();
-		return lc.includes(filter);
+		return comedyclubfestival.includes(filter) || city.includes(filter) || venue.includes(filter);
 	    });
 	}
 
