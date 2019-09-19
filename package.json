@@ -4,10 +4,23 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html",
+    "build": "parcel build index.html --public-url /open-mic-nights/",
     "deploy":"gh-pages -d dist"
   },
+  "homepage": "https://apuchitnis.github.io/open-mic-nights",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bulma": "^0.7.5",
+    "gh-pages": "^2.1.1",
+    "google-spreadsheet": "^2.0.8",
+    "parcel": "^1.12.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1"
+  },
+  "dependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
