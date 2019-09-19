@@ -1,16 +1,18 @@
 {
   "name": "open-mic-nights",
   "version": "1.0.0",
-  "private": true,
-  "main": "app.js",
+  "main": "index.html",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html",
+    "deploy":"gh-pages -d dist"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bulma": "^0.7.5",
+    "gh-pages": "^2.1.1",
     "google-spreadsheet": "^2.0.8",
     "parcel": "^1.12.3",
     "react": "^16.9.0",
