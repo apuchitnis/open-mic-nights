@@ -88,6 +88,9 @@ class App extends React.Component {
     render() {
 	return (
 	    <div className="content">
+		<h1 className="title has-text-centered">
+		    Search Open Mic Nights in London
+		</h1>
 		<div className="container">
 		    <section className="section">
 			<Results 
