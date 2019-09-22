@@ -174,7 +174,7 @@ class App extends React.Component {
 	
 	var bringer = document.getElementById('bringer').textContent
 	newResults = newResults.filter(item => {
-	    if ((item.bringer && bringer==="only bringer night") || (!item.bringer && bringer==="not bringer night") || (bringer==="don't care")) {
+	    if ((item.bringer && bringer==="only bringer night") || (!item.bringer && bringer==="not bringer night") || (bringer==="don't care") || (bringer==="filter bringer night")) {
 		return true;
 	    }
 	    return false;
