@@ -7,11 +7,19 @@ class Results extends React.Component {
 	super(props);
     }
 
+    toggleIsActive(e) {
+	e.currentTarget.classList.toggle('is-active');
+    }
+
+    setButtonText(e) {
+	document.getElementById('bringer').textContent=e.target.textContent;
+    }
+
     render() {
 	return (
 	    <div>
-		<div class="field">
-		    <div class="control">
+		<div className="field">
+		    <div className="control">
 			<input
 			type="text"
 			id="search"
@@ -21,40 +29,56 @@ class Results extends React.Component {
 			/>
 		    </div>
 		</div>
-
-		<div class="field">
-		    <label className="checkbox is-pulled-right">
-			<div class="control">
-			    <input
-				type="checkbox"
-				id="bringer"
-				onChange={this.props.handleChange}
-			    />
-			    bringer night
-			</div>
-		    </label>
-		</div>
-
-		    <table className="table">
-			<thead>
-			    <tr>
-				<th>name</th>
-				<th>city</th>
-				<th>venue</th>
-				<th>bringer</th>
+		<table className="table is-striped is-hoverable">
+		    <thead>
+			<tr>
+			    <th>name</th>
+			    <th>city</th>
+			    <th>venue</th>
+			    <th>bringer</th>
+			</tr>
+		    </thead>
+		    <thead>
+			<tr>
+			    <th></th>
+			    <th></th>
+			    <th>
+			    </th>
+			    <th>
+				<div className="dropdown" onClick={this.toggleIsActive}>
+				    <div className="dropdown-trigger">
+					<button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
+					    <span id="bringer">select bringer</span>
+					</button>
+				    </div>
+				    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+					<div className="dropdown-content">
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e); this.props.handleChange(e);}}>
+						yes
+					    </a>
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e); this.props.handleChange(e);}}>
+						no
+					    </a>
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e); this.props.handleChange(e);}}>
+						don't care
+					    </a>
+					</div>
+				    </div>
+				</div>
+			    </th>
+			</tr>
+		    </thead>
+		    <tbody>
+			{this.props.results.map(item => (
+			    <tr key={item.comedyclubfestival}>
+				<th>{item.comedyclubfestival}</th>
+				<td>{item.city}</td>
+				<td>{item.venue}</td>
+				<td>{item.bringer}</td>
 			    </tr>
-			</thead>
-			<tbody>
-			    {this.props.results.map(item => (
-				<tr key={item.comedyclubfestival}>
-				    <th>{item.comedyclubfestival}</th>
-				    <td>{item.city}</td>
-				    <td>{item.venue}</td>
-				    <td>{item.bringer}</td>
-				</tr>
-			    ))}
-			</tbody>
-		    </table>
+			))}
+		    </tbody>
+		</table>
 	    </div>
 	);
     }
@@ -134,10 +158,10 @@ class App extends React.Component {
 		return comedyclubfestival.includes(filter) || city.includes(filter) || venue.includes(filter);
 	    });
 	}
-
-	var bringer = document.getElementById('bringer')
+	
+	var bringer = document.getElementById('bringer').textContent
 	newResults = newResults.filter(item => {
-	    if ((item.bringer && bringer.checked) || (!item.bringer && !bringer.checked)) {
+	    if ((item.bringer && bringer==="yes") || (!item.bringer && bringer==="no") || (bringer==="don't care")) {
 		return true;
 	    }
 	    return false;
