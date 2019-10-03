@@ -11,11 +11,13 @@ class Results extends React.Component {
 	e.currentTarget.classList.toggle('is-active');
     }
 
-    setButtonText(e) {
-	document.getElementById('bringer').textContent=e.target.textContent;
+    setButtonText(e, id) {
+	document.getElementById(id).textContent=e.target.textContent;
     }
 
     render() {
+	let frequencies = Array.from(new Set(this.props.results.map(item => item.frequency)));
+
 	return (
 	    <div>
 		<div className="field">
@@ -42,7 +44,27 @@ class Results extends React.Component {
 		    <thead>
 			<tr>
 			    <th></th>
-			    <th></th>
+			    <th>
+				<div className="dropdown" onClick={this.toggleIsActive}>
+				    <div className="dropdown-trigger">
+					<button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
+					    <span id="frequency">filter frequency</span>
+					</button>
+				    </div>
+				    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+					<div className="dropdown-content">
+					    {frequencies.map(item =>
+						<a className="dropdown-item" onClick={(e) => {this.setButtonText(e, "frequency"); this.props.handleChange(e);}}>
+						    {item}
+						</a>
+					    )}
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e, "frequency"); this.props.handleChange(e);}}>
+						any frequency
+					    </a>
+					</div>
+				    </div>
+				</div>
+			    </th>
 			    <th></th>
 			    <th></th>
 			    <th>
@@ -54,13 +76,13 @@ class Results extends React.Component {
 				    </div>
 				    <div className="dropdown-menu" id="dropdown-menu" role="menu">
 					<div className="dropdown-content">
-					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e); this.props.handleChange(e);}}>
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e, "bringer"); this.props.handleChange(e);}}>
 						only bringer night
 					    </a>
-					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e); this.props.handleChange(e);}}>
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e, "bringer"); this.props.handleChange(e);}}>
 						not bringer night
 					    </a>
-					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e); this.props.handleChange(e);}}>
+					    <a className="dropdown-item" onClick={(e) => {this.setButtonText(e, "bringer"); this.props.handleChange(e);}}>
 						don't care
 					    </a>
 					</div>
@@ -171,6 +193,14 @@ class App extends React.Component {
 		return comedyclubfestival.includes(filter) || city.includes(filter) || venue.includes(filter);
 	    });
 	}
+
+	var frequency = document.getElementById('frequency').textContent
+	newResults = newResults.filter(item => {
+	    if ((item.frequency == frequency) || (frequency==="select frequency") || (frequency==="any frequency")) {
+	       return true;
+	   }
+	    return false
+	});
 	
 	var bringer = document.getElementById('bringer').textContent
 	newResults = newResults.filter(item => {
