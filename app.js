@@ -27,7 +27,7 @@ class Results extends React.Component {
 			id="search"
 			className="input"
 			onChange={this.props.handleChange}
-			placeholder="Search..."		
+			placeholder="Try 'Angel Comedy'..."
 			/>
 		    </div>
 		</div>
@@ -174,7 +174,7 @@ class App extends React.Component {
 		    </section>
 		</div>
 		<h5 className="title has-text-centered">
-		    Created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>.
+		    Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling the original spreadsheet.
 		</h5>
 	    </div>
 	);
@@ -196,7 +196,7 @@ class App extends React.Component {
 
 	var frequency = document.getElementById('frequency').textContent
 	newResults = newResults.filter(item => {
-	    if ((item.frequency == frequency) || (frequency==="select frequency") || (frequency==="any frequency")) {
+	    if ((item.frequency == frequency) || (frequency==="filter frequency") || (frequency==="any frequency")) {
 	       return true;
 	   }
 	    return false
