@@ -16,6 +16,18 @@ class Results extends React.Component {
     }
 
     render() {
+	var tj = require('togeojson')
+
+	fetch("https://cors-anywhere.herokuapp.com/" + "http://www.google.com/maps/d/kml?forcekml=1&mid=1h6A4nKuBB3Cajvvy0vMWvnuX8mBvLhJw")
+	    .then(response => response.text())
+	    .then(function(contents){ 
+		var parser = new DOMParser();
+		var xmlDoc = parser.parseFromString(contents, "text/xml");
+		var json = tj.kml(xmlDoc)
+		return contents
+	    })
+	    .catch(fail => console.log(fail))
+
 	let frequencies = Array.from(new Set(this.props.results.map(item => item.frequency)));
 
 	return (
@@ -219,3 +231,5 @@ class App extends React.Component {
 
 const rootElement = document.getElementById("app");
 ReactDOM.render(<App />, rootElement);
+
+
