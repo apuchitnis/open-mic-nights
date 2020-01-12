@@ -2,14 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import GoogleSpreadsheet from "google-spreadsheet";
 import GoogleMapReact from 'google-map-react';
+import {Popup, Icon} from 'semantic-ui-react'
 
-//const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const InfoBox = (props) => {
+    let googleMapLocation = "https://maps.google.com/?q=" + props.lat + ", " + props.lng
+    let windowGoogleMap = `window.location= + ${googleMapLocation}`
+    return (
+	<div>
+	    <Popup trigger={<a target="_blank" href={googleMapLocation}><Icon onClick={windowGoogleMap} className="building icon" size='big' style={{transform: 'matrix(-1, 0, 0, 1, 10, 0)'}}/></a>} content={props.name} position='top center' style={{marginLeft: '8px', backgroundColor: 'AliceBlue', border: 'solid 1px light', textAlign: 'center'}}/>
+	</div>
+    )
+}
 
 const AnyReactComponent = ({ text }) => (
     <div style={{
 	color: 'white', 
-	background: 'grey',
-	padding: '15px 10px',
+	background: 'white',
+	padding: '2px 2px',
 	display: 'inline-flex',
 	textAlign: 'center',
 	alignItems: 'center',
@@ -17,17 +26,23 @@ const AnyReactComponent = ({ text }) => (
 	borderRadius: '100%',
 	transform: 'translate(-50%, -50%)'
     }}>
-	{text}
+	<img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>
     </div>
 );
 
-class SimpleMap extends React.Component {
+class Map extends React.Component {
     constructor(props) {
 	super(props);
+	this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
+	this.onChildMouseLeave = this.onChildMouseLeave.bind(this)
 	this.state = {
 	    data: {
 		features: []
-	    }
+	    },
+	    name: "",
+	    hover: false,
+	    lat: "",
+	    lng: ""
 	};
     }
 
@@ -46,8 +61,38 @@ class SimpleMap extends React.Component {
             .catch(fail => console.log(fail))
     }
 
+    onChildMouseEnter(num, childProps){
+	if (childProps.text === ""){
+	    console.log("could not find text")
+	    return null
+	} else {
+	    this.setState({
+		name: childProps.text,
+		lat: childProps.lat,
+		lng: childProps.lng,
+		hover: true
+	    })
+	}
+    }
+
+
+    onChildMouseLeave(num, childProps){
+	if (childProps.text === ""){
+	    console.log("could not find text")
+	    return null
+	} else {
+	    this.setState({
+		name: "",
+		lat: "",
+		lng: "",
+		hover: false
+	    })
+	}
+    }
+
     render() {
-	console.log(this.state.data)
+	let googleMapLocation = "https://maps.google.com/?q=" + this.props.center.lat + ", " + this.props.center.lng
+	const infoBox = this.state.hover === true ? <InfoBox lat={this.state.lat} lng={this.state.lng} name={this.state.name} googleMapLocation={googleMapLocation} /> : null
 
 	var tj = require('togeojson')
  	let data = this.state.data
@@ -58,22 +103,25 @@ class SimpleMap extends React.Component {
 		    bootstrapURLKeys={{ key: "AIzaSyA10HrKQ5fBAbXjkvxwawNEop7bHzjUNBA" }}
 		    defaultCenter={this.props.center}
 		    defaultZoom={this.props.zoom}
+		    onChildMouseEnter={this.onChildMouseEnter}
+		    onChildMouseLeave={this.onChildMouseLeave}
 		>
 		    {data.features.map(item => 
 			<AnyReactComponent
-			    key={item.properties.description}
-			    lat={item.geometry.coordinates[1]}
-			    lng={item.geometry.coordinates[0]}
-			    text={item.properties.name}
+			key={item.properties.description}
+			lat={item.geometry.coordinates[1]}
+			lng={item.geometry.coordinates[0]}
+			text={item.properties.name}
 			/>
 		    )}
+		    {infoBox}
 		</GoogleMapReact>
 	    </div>
 	);
     }
 }
 
-SimpleMap.defaultProps = {
+Map.defaultProps = {
     center: {lat: 51.5074, lng: 0.1278},
     zoom: 11
 };
@@ -230,7 +278,7 @@ class App extends React.Component {
 			results: response,
 			rows: response
 		    },
-		    () => console.log("updated")
+		    () => console.log("downloaded comedy nights")
 		);
 	    });
 	});
@@ -253,7 +301,7 @@ class App extends React.Component {
 		<h5 className="title has-text-centered">
 		    Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling the original spreadsheet.
 		</h5>
-		<SimpleMap />
+		<Map />
 	    </div>
 	);
     }

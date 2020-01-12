@@ -23,7 +23,8 @@
     "parcel": "^1.12.4",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-scripts": "3.1.1"
+    "react-scripts": "3.1.1",
+    "semantic-ui-react": "^0.88.2"
   },
   "dependencies": {
     "google-spreadsheet": "^2.0.8",
