@@ -41,16 +41,16 @@ class SimpleMap extends React.Component {
 	        var xmlDoc = parser.parseFromString(contents, "text/xml");
 		var json = tj.kml(xmlDoc)
 		this.setState({data: json})
-		console.log(json)
 		return contents
 	    })
             .catch(fail => console.log(fail))
     }
 
     render() {
+	console.log(this.state.data)
+
 	var tj = require('togeojson')
  	let data = this.state.data
-	console.log(data)
 	return (
 	    // Important! Always set the container height explicitly
 	    <div style={{ height: '100vh', width: '100%' }}>
@@ -61,6 +61,7 @@ class SimpleMap extends React.Component {
 		>
 		    {data.features.map(item => 
 			<AnyReactComponent
+			    key={item.properties.description}
 			    lat={item.geometry.coordinates[1]}
 			    lng={item.geometry.coordinates[0]}
 			    text={item.properties.name}
