@@ -1,6 +1,82 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import GoogleSpreadsheet from "google-spreadsheet";
+import GoogleMapReact from 'google-map-react';
+
+//const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+const AnyReactComponent = ({ text }) => (
+    <div style={{
+	color: 'white', 
+	background: 'grey',
+	padding: '15px 10px',
+	display: 'inline-flex',
+	textAlign: 'center',
+	alignItems: 'center',
+	justifyContent: 'center',
+	borderRadius: '100%',
+	transform: 'translate(-50%, -50%)'
+    }}>
+	{text}
+    </div>
+);
+
+class SimpleMap extends React.Component {
+    constructor(props) {
+	super(props);
+	this.state = {
+	    data: {
+		features: []
+	    }
+	};
+    }
+
+    componentDidMount() {
+	var tj = require("togeojson")
+
+	fetch("https://cors-anywhere.herokuapp.com/" + "http://www.google.com/maps/d/kml?forcekml=1&mid=1h6A4nKuBB3Cajvvy0vMWvnuX8mBvLhJw")
+            .then(response => response.text())
+            .then(contents => {
+		var parser = new DOMParser();
+	        var xmlDoc = parser.parseFromString(contents, "text/xml");
+		var json = tj.kml(xmlDoc)
+		this.setState({data: json})
+		console.log(json)
+		return contents
+	    })
+            .catch(fail => console.log(fail))
+    }
+
+    render() {
+	var tj = require('togeojson')
+ 	let data = this.state.data
+	console.log(data)
+	return (
+	    // Important! Always set the container height explicitly
+	    <div style={{ height: '100vh', width: '100%' }}>
+		<GoogleMapReact
+		    bootstrapURLKeys={{ key: "AIzaSyA10HrKQ5fBAbXjkvxwawNEop7bHzjUNBA" }}
+		    defaultCenter={this.props.center}
+		    defaultZoom={this.props.zoom}
+		>
+		    {data.features.map(item => 
+			<AnyReactComponent
+			    lat={item.geometry.coordinates[1]}
+			    lng={item.geometry.coordinates[0]}
+			    text={item.properties.name}
+			/>
+		    )}
+		</GoogleMapReact>
+	    </div>
+	);
+    }
+}
+
+SimpleMap.defaultProps = {
+    center: {lat: 51.5074, lng: 0.1278},
+    zoom: 11
+};
+
 
 class Results extends React.Component {
     constructor(props) {
@@ -16,18 +92,6 @@ class Results extends React.Component {
     }
 
     render() {
-	var tj = require('togeojson')
-
-	fetch("https://cors-anywhere.herokuapp.com/" + "http://www.google.com/maps/d/kml?forcekml=1&mid=1h6A4nKuBB3Cajvvy0vMWvnuX8mBvLhJw")
-	    .then(response => response.text())
-	    .then(function(contents){ 
-		var parser = new DOMParser();
-		var xmlDoc = parser.parseFromString(contents, "text/xml");
-		var json = tj.kml(xmlDoc)
-		return contents
-	    })
-	    .catch(fail => console.log(fail))
-
 	let frequencies = Array.from(new Set(this.props.results.map(item => item.frequency)));
 
 	return (
@@ -188,6 +252,7 @@ class App extends React.Component {
 		<h5 className="title has-text-centered">
 		    Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling the original spreadsheet.
 		</h5>
+		<SimpleMap />
 	    </div>
 	);
     }
@@ -209,8 +274,8 @@ class App extends React.Component {
 	var frequency = document.getElementById('frequency').textContent
 	newResults = newResults.filter(item => {
 	    if ((item.frequency == frequency) || (frequency==="filter frequency") || (frequency==="any frequency")) {
-	       return true;
-	   }
+		return true;
+	    }
 	    return false
 	});
 	
@@ -221,7 +286,6 @@ class App extends React.Component {
 	    }
 	    return false;
 	});
-	
 
 	this.setState({
 	    results: newResults
