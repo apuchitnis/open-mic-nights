@@ -59,10 +59,10 @@ class AnyReactComponent extends React.Component {
 	const img = this.props.$hover? null : <img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>;
 
 	return (
-	<div style={style}>
-	    {text}
-	    {img}
-	</div>
+	    <div style={style}>
+		{text}
+		{img}
+	    </div>
 	)
     }
 }
@@ -70,30 +70,9 @@ class AnyReactComponent extends React.Component {
 class Map extends React.Component {
     constructor(props) {
 	super(props);
-	this.state = {
-	    data: {
-		features: []
-	    },
-	};
-    }
-
-    componentDidMount() {
-	var tj = require("togeojson")
-
-	fetch("https://cors-anywhere.herokuapp.com/" + "http://www.google.com/maps/d/kml?forcekml=1&mid=1h6A4nKuBB3Cajvvy0vMWvnuX8mBvLhJw")
-            .then(response => response.text())
-            .then(contents => {
-		var parser = new DOMParser();
-	        var xmlDoc = parser.parseFromString(contents, "text/xml");
-		var json = tj.kml(xmlDoc)
-		this.setState({data: json})
-		return contents
-	    })
-            .catch(fail => console.log(fail))
     }
 
     render() {
- 	let data = this.state.data
 	return (
 	    // Important! Always set the container height explicitly
 	    <div style={{ height: '100vh', width: '100%' }}>
@@ -103,12 +82,12 @@ class Map extends React.Component {
 		    defaultZoom={this.props.zoom}
 		    hoverDistance={K_SIZE/2}
 		>
-		    {data.features.map(item => 
+		    {this.props.results.map(item =>
 			<AnyReactComponent
-			key={item.properties.description}
-			lat={item.geometry.coordinates[1]}
-			lng={item.geometry.coordinates[0]}
-			text={item.properties.name}
+			key={item.id}
+			lat={item.latitude}
+			lng={item.longitude}
+			text={item.name}
 			/>
 		    )}
 		</GoogleMapReact>
@@ -213,8 +192,8 @@ class Results extends React.Component {
 			</tr>
 		    </thead>
 		    <tbody>
-			{this.props.results.map(item => (
-			    <tr key={item.comedyclubfestival}>
+			{this.props.results.slice(0,10).map(item => (
+			    <tr key={item.name}>
 				<th>
 				    <a href={item.facebook}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
@@ -223,8 +202,8 @@ class Results extends React.Component {
 				    <span> </span>
 				    {item.website != ""?
 				     <a href={item.website}>
-					 {item.comedyclubfestival}
-				     </a> : item.comedyclubfestival
+					 {item.name}
+				     </a> : item.name
 				    }
 				</th>
 				<td>{item.frequency}</td>
@@ -251,7 +230,7 @@ class App extends React.Component {
 
     componentDidMount() {
 	const doc = new GoogleSpreadsheet(
-	    "194rof1NCeXCIGIaPLQu61mj23-YeIFyJA4hQc8q7UQE",
+	    "1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k",
 	    null,
 	    { gzip: false }
 	);
@@ -263,7 +242,7 @@ class App extends React.Component {
 	    }
 	    const sheet = info.worksheets[0];
 
-	    sheet.getRows({ offset: 1, limit: 10 }, (err, response) => {
+	    sheet.getRows({ offset: 1, limit: 1000 }, (err, response) => {
 		if (err) {
 		    console.log(err);
 		    return;
@@ -295,9 +274,11 @@ class App extends React.Component {
 		    </section>
 		</div>
 		<h5 className="title has-text-centered">
-		    Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling the original spreadsheet.
+		    Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
 		</h5>
-		<Map />
+		<Map
+		    results={this.state.results}
+		/>
 	    </div>
 	);
     }
@@ -308,11 +289,11 @@ class App extends React.Component {
 	var search = document.getElementById('search')
 	if (search.value !== "") {
 	    newResults = newResults.filter(item => {
-		const comedyclubfestival = item.comedyclubfestival.toLowerCase();
+		const name = item.name.toLowerCase();
 		const city = item.city.toLowerCase();
 		const venue = item.venue.toLowerCase();
 		const filter = search.value.toLowerCase();
-		return comedyclubfestival.includes(filter) || city.includes(filter) || venue.includes(filter);
+		return name.includes(filter) || city.includes(filter) || venue.includes(filter);
 	    });
 	}
 
