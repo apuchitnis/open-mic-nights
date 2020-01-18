@@ -2,47 +2,78 @@ import React from "react";
 import ReactDOM from "react-dom";
 import GoogleSpreadsheet from "google-spreadsheet";
 import GoogleMapReact from 'google-map-react';
-import {Popup, Icon} from 'semantic-ui-react'
 
-const InfoBox = (props) => {
-    let googleMapLocation = "https://maps.google.com/?q=" + props.lat + ", " + props.lng
-    let windowGoogleMap = `window.location= + ${googleMapLocation}`
-    return (
-	<div>
-	    <Popup trigger={<a target="_blank" href={googleMapLocation}><Icon onClick={windowGoogleMap} className="building icon" size='big' style={{transform: 'matrix(-1, 0, 0, 1, 10, 0)'}}/></a>} content={props.name} position='top center' style={{marginLeft: '8px', backgroundColor: 'AliceBlue', border: 'solid 1px light', textAlign: 'center'}}/>
+const K_SIZE = 75
+
+const greatPlaceStyle = {
+    // initially any map object has left top corner at lat lng coordinates
+    // it's on you to set object origin to 0,0 coordinates
+    position: 'absolute',
+    width: K_SIZE,
+    height: K_SIZE,
+    left: -K_SIZE / 2,
+    top: -K_SIZE / 2,
+
+    border: '5px solid #f44336',
+    borderRadius: K_SIZE,
+    backgroundColor: 'white',
+    textAlign: 'center',
+    color: '#3f51b5',
+    fontSize: 12,
+    fontWeight: 'bold',
+    padding: 4,
+    cursor: 'pointer'
+};
+
+const greatPlaceStyleHover = {
+    // initially any map object has left top corner at lat lng coordinates
+    // it's on you to set object origin to 0,0 coordinates
+    position: 'absolute',
+    width: K_SIZE,
+    height: K_SIZE,
+    left: -K_SIZE / 2,
+    top: -K_SIZE / 2,
+
+    border: '5px solid #f44336',
+    borderRadius: K_SIZE,
+    backgroundColor: 'white',
+    textAlign: 'center',
+    color: '#3f51b5',
+    fontSize: 14,
+    fontWeight: 'bold',
+    padding: 4,
+    cursor: 'pointer',
+    border: '5px solid #3f51b5',
+    color: '#f44336'
+};
+
+
+class AnyReactComponent extends React.Component {
+    constructor(props) {
+	super(props);
+    }
+
+    render() {
+	const style = this.props.$hover? greatPlaceStyleHover : greatPlaceStyle;
+	const text = this.props.$hover? this.props.text : "";
+	const img = this.props.$hover? null : <img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>;
+
+	return (
+	<div style={style}>
+	    {text}
+	    {img}
 	</div>
-    )
+	)
+    }
 }
-
-const AnyReactComponent = ({ text }) => (
-    <div style={{
-	color: 'white', 
-	background: 'white',
-	padding: '2px 2px',
-	display: 'inline-flex',
-	textAlign: 'center',
-	alignItems: 'center',
-	justifyContent: 'center',
-	borderRadius: '100%',
-	transform: 'translate(-50%, -50%)'
-    }}>
-	<img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>
-    </div>
-);
 
 class Map extends React.Component {
     constructor(props) {
 	super(props);
-	this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
-	this.onChildMouseLeave = this.onChildMouseLeave.bind(this)
 	this.state = {
 	    data: {
 		features: []
 	    },
-	    name: "",
-	    hover: false,
-	    lat: "",
-	    lng: ""
 	};
     }
 
@@ -61,40 +92,7 @@ class Map extends React.Component {
             .catch(fail => console.log(fail))
     }
 
-    onChildMouseEnter(num, childProps){
-	if (childProps.text === ""){
-	    console.log("could not find text")
-	    return null
-	} else {
-	    this.setState({
-		name: childProps.text,
-		lat: childProps.lat,
-		lng: childProps.lng,
-		hover: true
-	    })
-	}
-    }
-
-
-    onChildMouseLeave(num, childProps){
-	if (childProps.text === ""){
-	    console.log("could not find text")
-	    return null
-	} else {
-	    this.setState({
-		name: "",
-		lat: "",
-		lng: "",
-		hover: false
-	    })
-	}
-    }
-
     render() {
-	let googleMapLocation = "https://maps.google.com/?q=" + this.props.center.lat + ", " + this.props.center.lng
-	const infoBox = this.state.hover === true ? <InfoBox lat={this.state.lat} lng={this.state.lng} name={this.state.name} googleMapLocation={googleMapLocation} /> : null
-
-	var tj = require('togeojson')
  	let data = this.state.data
 	return (
 	    // Important! Always set the container height explicitly
@@ -103,8 +101,7 @@ class Map extends React.Component {
 		    bootstrapURLKeys={{ key: "AIzaSyA10HrKQ5fBAbXjkvxwawNEop7bHzjUNBA" }}
 		    defaultCenter={this.props.center}
 		    defaultZoom={this.props.zoom}
-		    onChildMouseEnter={this.onChildMouseEnter}
-		    onChildMouseLeave={this.onChildMouseLeave}
+		    hoverDistance={K_SIZE/2}
 		>
 		    {data.features.map(item => 
 			<AnyReactComponent
@@ -114,7 +111,6 @@ class Map extends React.Component {
 			text={item.properties.name}
 			/>
 		    )}
-		    {infoBox}
 		</GoogleMapReact>
 	    </div>
 	);
@@ -122,8 +118,8 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
-    center: {lat: 51.5074, lng: 0.1278},
-    zoom: 11
+    center: {lat: 51.5074, lng: -0.05},
+    zoom: 14
 };
 
 
