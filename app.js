@@ -131,7 +131,7 @@ class Results extends React.Component {
 			/>
 		    </div>
 		</div>
-		<table className="table is-striped is-hoverable">
+		<table className="table is-striped is-hoverable" height="500px">
 		    <thead>
 			<tr>
 			    <th>name</th>
@@ -192,7 +192,7 @@ class Results extends React.Component {
 			</tr>
 		    </thead>
 		    <tbody>
-			{this.props.results.slice(0,10).map(item => (
+			{this.props.results.slice(0,1000).map(item => (
 			    <tr key={item.name}>
 				<th>
 				    <a href={item.facebookpage}>
