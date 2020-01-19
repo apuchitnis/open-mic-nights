@@ -1,0 +1,1 @@
+{"version":3,"sources":["scrollable.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"scrollable.1fb9eea0.css","sourceRoot":"..","sourcesContent":["table {\n    display: block;\n    overflow-y: scroll;\n}\n"]}
