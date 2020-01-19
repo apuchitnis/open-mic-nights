@@ -75,7 +75,7 @@ class Map extends React.Component {
     render() {
 	return (
 	    // Important! Always set the container height explicitly
-	    <div style={{ height: '100vh', width: '100%' }}>
+	    <div style={{ height: '95vh', width: '95vh' }}>
 		<GoogleMapReact
 		    bootstrapURLKeys={{ key: "AIzaSyA10HrKQ5fBAbXjkvxwawNEop7bHzjUNBA" }}
 		    defaultCenter={this.props.center}
@@ -119,19 +119,8 @@ class Results extends React.Component {
 	let frequencies = Array.from(new Set(this.props.results.map(item => item.frequency)));
 
 	return (
-	    <div>
-		<div className="field">
-		    <div className="control">
-			<input
-			type="text"
-			id="search"
-			className="input"
-			onChange={this.props.handleChange}
-			placeholder="Try 'Angel Comedy'..."
-			/>
-		    </div>
-		</div>
-		<table className="table is-striped is-hoverable" height="500px">
+	    <div className="table-container">
+		<table className="table is-striped is-hoverable" height='800px' width='900px'>
 		    <thead>
 			<tr>
 			    <th>name</th>
@@ -261,24 +250,37 @@ class App extends React.Component {
 
     render() {
 	return (
-	    <div className="content">
+	    <div className="section">
 		<h1 className="title has-text-centered">
 		    Search Open Mic Nights in London
 		</h1>
-		<div className="container">
-		    <section className="section">
+		<div className="field">
+		    <div className="control">
+			<input
+			type="text"
+			id="search"
+			className="input"
+			onChange={() => this.handleChange()}
+			placeholder="Try 'Angel Comedy'..."
+			/>
+		    </div>
+		</div>
+		<nav className="level">
+		    <div className="level-item">
 			<Results 
 			    results={this.state.results}
 			    handleChange={() => this.handleChange()}
 			/>
-		    </section>
-		</div>
+		    </div>
+		    <div className="level-item">
+			<Map
+			    results={this.state.results}
+			/>
+		    </div>
+		</nav>
 		<h5 className="title has-text-centered">
 		    Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
 		</h5>
-		<Map
-		    results={this.state.results}
-		/>
 	    </div>
 	);
     }
