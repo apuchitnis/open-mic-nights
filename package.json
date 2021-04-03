@@ -9,24 +9,23 @@
   },
   "homepage": "https://apuchitnis.github.io/open-mic-nights",
   "devDependencies": {
-    "@tmcw/togeojson": "^3.0.1",
-    "async": "^3.1.0",
+    "@tmcw/togeojson": "^3.2.0",
+    "async": "^3.2.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bulma": "^0.7.5",
-    "gh-pages": "^2.1.1",
-    "google-map-react": "^1.1.5",
-    "google-spreadsheet": "^2.0.8",
+    "gh-pages": "^2.2.0",
+    "google-map-react": "^1.1.7",
+    "google-spreadsheet": "^2.0.9",
     "install": "^0.13.0",
-    "npm": "^6.13.6",
+    "npm": "^6.14.12",
     "parcel": "^1.12.4",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-scripts": "3.1.1"
   },
   "dependencies": {
-    "google-spreadsheet": "^2.0.8",
     "react-scripts": "3.1.1",
     "togeojson": "^0.16.0"
   }
