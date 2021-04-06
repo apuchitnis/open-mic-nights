@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
+import './scrollable.css';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -129,7 +130,7 @@ class Results extends React.Component {
 
     return (
       <div className="table-container">
-        <table className="table is-striped is-hoverable" height='800px' width='100px'>
+        <table className="table is-striped is-hoverable" height='800px' width='800px'>
           <thead>
             <tr>
               <th>name</th>
@@ -278,13 +279,12 @@ class App extends React.Component {
               handleChange={() => this.handleChange()}
             />
           </div>
-        </nav>
-		          <div className="level-item">
+		  <div className="level-item">
             <Map
               results={this.state.results}
             />
           </div>
-
+        </nav>
         <h5 className="title has-text-centered">
         Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
