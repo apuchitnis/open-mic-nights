@@ -1,32 +1,33 @@
 {
   "name": "open-mic-nights",
   "version": "1.0.0",
-  "main": "index.html",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html --public-url /open-mic-nights/",
-    "deploy": "gh-pages -d dist"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "homepage": "https://apuchitnis.github.io/open-mic-nights",
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-plugin-react": "^7.23.1",
     "gh-pages": "^2.2.0"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
     "async": "^3.2.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "react-scripts": "3.1.1",
     "google-map-react": "^1.1.7",
     "google-spreadsheet": "^3.0.0",
-    "install": "^0.13.0",
-    "npm": "^6.14.12",
-    "parcel": "^1.12.4",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "react-scripts": "^4.0.3",
+    "web-vitals": "^1.0.1"
+  },
+  "esLintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
