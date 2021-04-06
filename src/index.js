@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GoogleSpreadsheet from 'google-spreadsheet';
 import GoogleMapReact from 'google-map-react';
+
+const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 const K_SIZE = 75;
 
@@ -85,9 +86,9 @@ class Map extends React.Component {
           {this.props.results.map((item) =>
             <AnyReactComponent
               key={item.id}
-              lat={item.latitude}
-              lng={item.longitude}
-              text={item.name}
+              lat={item.Latitude}
+              lng={item.Longitude}
+              text={item.Name}
             />,
           )}
         </GoogleMapReact>
@@ -116,11 +117,19 @@ class Results extends React.Component {
   }
 
   render() {
-    const frequencies = Array.from(new Set(this.props.results.map((item) => item.frequency)));
+    const frequencies = Array.from(new Set(this.props.results.map((item) => item.Frequency)));
+	console.log(frequencies)
+	
+	if (this.props.results.length > 0) {
+		console.log(this.props.results.length);
+		console.log(this.props.results[0]);
+		console.log(this.props.results[0]._rawData);
+		console.log(this.props.results[0].rowIndex);
+	}
 
     return (
       <div className="table-container">
-        <table className="table is-striped is-hoverable" height='800px' width='900px'>
+        <table className="table is-striped is-hoverable" height='800px' width='100px'>
           <thead>
             <tr>
               <th>name</th>
@@ -191,24 +200,24 @@ class Results extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.results.slice(0, 1000).map((item) => (
-              <tr key={item.name}>
+            {this.props.results.slice(0, 500).map((item) => (
+              <tr key={item.Name}>
                 <th>
-                  <a href={item.facebookpage}>
+                  <a href={item.FacebookPage}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
                     </svg>
                   </a>
                   <span> </span>
-                  {item.website != ''?
-             <a href={item.website}>
-               {item.name}
-             </a> : item.name
+                  {item.Website != ''?
+             <a href={item.Website}>
+               {item.Name}
+             </a> : item.Name
                   }
                 </th>
-                <td>{item.frequency}</td>
-                <td>{item.city}</td>
-                <td>{item.venue}</td>
-                <td>{item.bringer}</td>
+                <td>{item.Frequency}</td>
+                <td>{item.City}</td>
+                <td>{item.Venue}</td>
+                <td>{item.Bringer}</td>
               </tr>
             ))}
           </tbody>
@@ -228,34 +237,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const doc = new GoogleSpreadsheet(
-        '1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k',
-        null,
-        {gzip: false},
-    );
-
-    doc.getInfo((err, info) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      const sheet = info.worksheets[0];
-
-      sheet.getRows({offset: 1, limit: 1000}, (err, response) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-
-        this.setState(
-            {
-              results: response,
-              rows: response,
-            },
-            () => console.log('downloaded comedy nights'),
-        );
-      });
-    });
+    const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
+	doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
+	let self = this;
+	(async function() {
+		await doc.loadInfo();
+		console.log(doc.title);
+		const sheet = doc.sheetsByIndex[0]
+		const rows = await sheet.getRows()
+		self.setState(
+		  {
+			results: rows,
+			rows: rows,
+		  });
+	}())
+	console.log(this.state.rows)
   }
 
   render() {
@@ -282,12 +278,13 @@ class App extends React.Component {
               handleChange={() => this.handleChange()}
             />
           </div>
-          <div className="level-item">
+        </nav>
+		          <div className="level-item">
             <Map
               results={this.state.results}
             />
           </div>
-        </nav>
+
         <h5 className="title has-text-centered">
         Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
@@ -301,9 +298,9 @@ class App extends React.Component {
     const search = document.getElementById('search');
     if (search.value !== '') {
       newResults = newResults.filter((item) => {
-        const name = item.name.toLowerCase();
-        const city = item.city.toLowerCase();
-        const venue = item.venue.toLowerCase();
+        const name = item.Name.toLowerCase();
+        const city = item.City.toLowerCase();
+        const venue = item.Venue.toLowerCase();
         const filter = search.value.toLowerCase();
         return name.includes(filter) || city.includes(filter) || venue.includes(filter);
       });
@@ -311,7 +308,7 @@ class App extends React.Component {
 
     const frequency = document.getElementById('frequency').textContent;
     newResults = newResults.filter((item) => {
-      if ((item.frequency == frequency) || (frequency==='filter frequency') || (frequency==='any frequency')) {
+      if ((item.Frequency == frequency) || (frequency==='filter frequency') || (frequency==='any frequency')) {
         return true;
       }
       return false;
