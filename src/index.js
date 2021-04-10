@@ -51,28 +51,31 @@ const greatPlaceStyleHover = {
 };
 
 function AppTable() {
-  const [data, setData] = useState({ sheet: null, rows: [], isFetching: false });
+  const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
 
   useEffect(() => {
     (async function () {
       try {
-        setData({ sheet: data.sheet, rows: data.rows, isFetching: true });
+        setData({ ...data, isFetching: true });
+
         const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
         doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
         await doc.loadInfo();
+
         const sheet = doc.sheetsByIndex[0]
         const rows = await sheet.getRows()
-        setData({ sheet: sheet, rows: rows, isFetching: false });
+
+        setData({ headerValues: sheet.headerValues, rows: rows, isFetching: false });
       } catch (e) {
         console.log(e);
-        setData({ sheet: data.sheet, rows: data.rows, isFetching: false });
+        setData({ ...data, isFetching: false });
       }
     }());
   }, []);
 
   const rowsData = React.useMemo(
     () => {
-      if (!data.isFetching && data.sheet != null) {
+      if (!data.isFetching && data.headerValues != null) {
         return data.rows.map((item) => { return { Name: item.Name } })
       }
 
@@ -96,8 +99,8 @@ function AppTable() {
 
   const columns = React.useMemo(
     () => {
-      if (!data.isFetching && data.sheet != null) {
-        return data.sheet.headerValues.map((item) => { return { Header: item, accessor: item }; })
+      if (!data.isFetching && data.headerValues != null) {
+        return data.headerValues.map((item) => { return { Header: item, accessor: item }; })
       }
 
       return [
