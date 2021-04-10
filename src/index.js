@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './scrollable.css';
+import { useTable } from 'react-table'
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -49,6 +50,126 @@ const greatPlaceStyleHover = {
   color: '#f44336',
 };
 
+function AppTable() {
+  const [data, setData] = useState({ sheet: null, rows: [], isFetching: false });
+
+  useEffect(() => {
+    (async function () {
+      try {
+        setData({ sheet: data.sheet, rows: data.rows, isFetching: true });
+        const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
+        doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0]
+        const rows = await sheet.getRows()
+        setData({ sheet: sheet, rows: rows, isFetching: false });
+      } catch (e) {
+        console.log(e);
+        setData({ sheet: data.sheet, rows: data.rows, isFetching: false });
+      }
+    }());
+  }, []);
+
+  const rowsData = React.useMemo(
+    () => {
+      if (!data.isFetching && data.sheet != null) {
+        return data.rows.map((item) => { return { Name: item.Name } })
+      }
+
+      return [
+        {
+          col1: 'Hello',
+          col2: 'World',
+        },
+        {
+          col1: 'react-table',
+          col2: 'rocks',
+        },
+        {
+          col1: 'whatever',
+          col2: 'you want',
+        },
+      ]
+    },
+    [data]
+  )
+
+  const columns = React.useMemo(
+    () => {
+      if (!data.isFetching && data.sheet != null) {
+        return data.sheet.headerValues.map((item) => { return { Header: item, accessor: item }; })
+      }
+
+      return [
+        {
+          Header: 'Column 1',
+          accessor: 'col1', // accessor is the "key" in the data
+        },
+        {
+          Header: 'Column 2',
+          accessor: 'col2',
+        },
+      ]
+    },
+    [data]
+  )
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data: rowsData })
+
+  return (
+    <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+      <thead>
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th
+                {...column.getHeaderProps()}
+                style={{
+                  borderBottom: 'solid 3px red',
+                  background: 'aliceblue',
+                  color: 'black',
+                  fontWeight: 'bold',
+                }}
+              >
+                {column.render('Header')}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map(row => {
+          prepareRow(row)
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return (
+                  <td
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: '10px',
+                      border: 'solid 1px gray',
+                      background: 'papayawhip',
+                    }}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
+
 
 class AnyReactComponent extends React.Component {
   constructor(props) {
@@ -56,9 +177,9 @@ class AnyReactComponent extends React.Component {
   }
 
   render() {
-    const style = this.props.$hover? greatPlaceStyleHover : greatPlaceStyle;
-    const text = this.props.$hover? this.props.text : '';
-    const img = this.props.$hover? null : <img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>;
+    const style = this.props.$hover ? greatPlaceStyleHover : greatPlaceStyle;
+    const text = this.props.$hover ? this.props.text : '';
+    const img = this.props.$hover ? null : <img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>;
 
     return (
       <div style={style}>
@@ -77,12 +198,12 @@ class Map extends React.Component {
   render() {
     return (
       // Important! Always set the container height explicitly
-      <div style={{height: '95vh', width: '95vh'}}>
+      <div style={{ height: '95vh', width: '95vh' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4'}}
+          bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
-          hoverDistance={K_SIZE/2}
+          hoverDistance={K_SIZE / 2}
         >
           {this.props.results.map((item) =>
             <AnyReactComponent
@@ -99,7 +220,7 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
-  center: {lat: 51.5074, lng: -0.05},
+  center: { lat: 51.5074, lng: -0.05 },
   zoom: 14,
 };
 
@@ -114,20 +235,11 @@ class Results extends React.Component {
   }
 
   setButtonText(e, id) {
-    document.getElementById(id).textContent=e.target.textContent;
+    document.getElementById(id).textContent = e.target.textContent;
   }
 
   render() {
     const frequencies = Array.from(new Set(this.props.results.map((item) => item.Frequency)));
-	console.log(frequencies)
-	
-	if (this.props.results.length > 0) {
-		console.log(this.props.results.length);
-		console.log(this.props.results[0]);
-		console.log(this.props.results[0]._rawData);
-		console.log(this.props.results[0].rowIndex);
-	}
-
     return (
       <div className="table-container">
         <table className="table is-striped is-hoverable" height='800px' width='800px'>
@@ -162,7 +274,7 @@ class Results extends React.Component {
                       <a className="dropdown-item" onClick={(e) => {
                         this.setButtonText(e, 'frequency'); this.props.handleChange(e);
                       }}>
-            any frequency
+                        any frequency
                       </a>
                     </div>
                   </div>
@@ -182,17 +294,17 @@ class Results extends React.Component {
                       <a className="dropdown-item" onClick={(e) => {
                         this.setButtonText(e, 'bringer'); this.props.handleChange(e);
                       }}>
-            only bringer night
+                        only bringer night
                       </a>
                       <a className="dropdown-item" onClick={(e) => {
                         this.setButtonText(e, 'bringer'); this.props.handleChange(e);
                       }}>
-            not bringer night
+                        not bringer night
                       </a>
                       <a className="dropdown-item" onClick={(e) => {
                         this.setButtonText(e, 'bringer'); this.props.handleChange(e);
                       }}>
-            don't care
+                        don't care
                       </a>
                     </div>
                   </div>
@@ -205,14 +317,14 @@ class Results extends React.Component {
               <tr key={item.Name}>
                 <th>
                   <a href={item.FacebookPage}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
                     </svg>
                   </a>
                   <span> </span>
-                  {item.Website != ''?
-             <a href={item.Website}>
-               {item.Name}
-             </a> : item.Name
+                  {item.Website != '' ?
+                    <a href={item.Website}>
+                      {item.Name}
+                    </a> : item.Name
                   }
                 </th>
                 <td>{item.Frequency}</td>
@@ -237,29 +349,23 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
-	doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
-	let self = this;
-	(async function() {
-		await doc.loadInfo();
-		console.log(doc.title);
-		const sheet = doc.sheetsByIndex[0]
-		const rows = await sheet.getRows()
-		self.setState(
-		  {
-			results: rows,
-			rows: rows,
-		  });
-	}())
-	console.log(this.state.rows)
-  }
+    doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
+    await doc.loadInfo();
+    const sheet = doc.sheetsByIndex[0]
+    const rows = await sheet.getRows()
+    this.setState({
+      results: rows,
+      rows: rows,
+    });
+  };
 
   render() {
     return (
       <div className="section">
         <h1 className="title has-text-centered">
-        Search Open Mic Nights in London
+          Search Open Mic Nights in London
         </h1>
         <div className="field">
           <div className="control">
@@ -279,15 +385,16 @@ class App extends React.Component {
               handleChange={() => this.handleChange()}
             />
           </div>
-		  <div className="level-item">
+          <div className="level-item">
             <Map
               results={this.state.results}
             />
           </div>
         </nav>
         <h5 className="title has-text-centered">
-        Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+          Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
+        <AppTable />
       </div>
     );
   }
@@ -308,7 +415,7 @@ class App extends React.Component {
 
     const frequency = document.getElementById('frequency').textContent;
     newResults = newResults.filter((item) => {
-      if ((item.Frequency == frequency) || (frequency==='filter frequency') || (frequency==='any frequency')) {
+      if ((item.Frequency == frequency) || (frequency === 'filter frequency') || (frequency === 'any frequency')) {
         return true;
       }
       return false;
@@ -316,7 +423,7 @@ class App extends React.Component {
 
     const bringer = document.getElementById('bringer').textContent;
     newResults = newResults.filter((item) => {
-      if ((item.bringer && bringer==='only bringer night') || (!item.bringer && bringer==='not bringer night') || (bringer==='don\'t care') || (bringer==='filter bringer night')) {
+      if ((item.bringer && bringer === 'only bringer night') || (!item.bringer && bringer === 'not bringer night') || (bringer === 'don\'t care') || (bringer === 'filter bringer night')) {
         return true;
       }
       return false;
