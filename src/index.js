@@ -2,53 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './scrollable.css';
+import './hover.css'
 import { useTable } from 'react-table'
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-
-const K_SIZE = 75;
-
-const greatPlaceStyle = {
-  // initially any map object has left top corner at lat lng coordinates
-  // it's on you to set object origin to 0,0 coordinates
-  position: 'absolute',
-  width: K_SIZE,
-  height: K_SIZE,
-  left: -K_SIZE / 2,
-  top: -K_SIZE / 2,
-
-  border: '5px solid #f44336',
-  borderRadius: K_SIZE,
-  backgroundColor: 'white',
-  textAlign: 'center',
-  color: '#3f51b5',
-  fontSize: 12,
-  fontWeight: 'bold',
-  padding: 4,
-  cursor: 'pointer',
-};
-
-const greatPlaceStyleHover = {
-  // initially any map object has left top corner at lat lng coordinates
-  // it's on you to set object origin to 0,0 coordinates
-  position: 'absolute',
-  width: K_SIZE,
-  height: K_SIZE,
-  left: -K_SIZE / 2,
-  top: -K_SIZE / 2,
-
-  border: '5px solid #f44336',
-  borderRadius: K_SIZE,
-  backgroundColor: 'white',
-  textAlign: 'center',
-  color: '#3f51b5',
-  fontSize: 14,
-  fontWeight: 'bold',
-  padding: 4,
-  cursor: 'pointer',
-  border: '5px solid #3f51b5',
-  color: '#f44336',
-};
 
 function AppTable() {
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
@@ -173,21 +130,85 @@ function AppTable() {
   )
 }
 
+const K_SIZE = 150;
 
-class AnyReactComponent extends React.Component {
+const greatPlaceStyle = {
+  // initially any map object has left top corner at lat lng coordinates
+  // it's on you to set object origin to 0,0 coordinates
+  position: 'absolute',
+  transform: 'translate(-50%, -100%)',
+  //background: 'green',
+  transition: 'transform .2s',
+  cursor: 'pointer',
+  '&hover:': {
+    background: 'green',
+    transform: 'scale(1.5)',
+  },
+};
+
+// const greatPlaceStyleHover = {
+//   // initially any map object has left top corner at lat lng coordinates
+//   // it's on you to set object origin to 0,0 coordinates
+//   position: 'absolute',
+//   transition: 'transform .2s',
+
+//   // width: K_SIZE,
+//   // height: K_SIZE,
+//   // left: -K_SIZE / 2,
+//   // top: -K_SIZE / 2,
+//   cursor: 'pointer',
+//   '&:hover': {
+//     transform: "scale(1.5)",
+//   },
+// };
+
+const InfoWindow = (props) => {
+  const { name } = props;
+  const infoWindowStyle = {
+    position: 'relative',
+    bottom: 150,
+    left: '-45px',
+    width: 220,
+    backgroundColor: 'white',
+    boxShadow: '0 2px 7px 1px rgba(0, 0, 0, 0.3)',
+    padding: 10,
+    fontSize: 14,
+    zIndex: 100,
+  };
+
+  return (
+    <div style={infoWindowStyle}>
+      <div style={{ fontSize: 16 }}>
+        {name}
+      </div>
+    </div>
+  );
+};
+
+class MapMarker extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const style = this.props.$hover ? greatPlaceStyleHover : greatPlaceStyle;
-    const text = this.props.$hover ? this.props.text : '';
-    const img = this.props.$hover ? null : <img src="https://img.icons8.com/doodle/48/000000/microphone--v1.png"></img>;
+    // const style = this.props.$hover ? greatPlaceStyle : greatPlaceStyle;
+    // const text = ""//this.props.$hover ? this.props.text : '';
+    const img = <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Google_Maps_pin.svg"></img>;
+    const markerStyle = {
+      border: '1px solid white',
+      borderRadius: '50%',
+      height: 10,
+      width: 10,
+      backgroundColor: this.props.show ? 'red' : 'blue',
+      cursor: 'pointer',
+      zIndex: 10,
+    };
+    console.log(this.props.show)
 
     return (
-      <div style={style}>
-        {text}
-        {img}
+      <div style={markerStyle}/*className="pin"*/>
+        {/* {img} */}
+        {this.props.show && <InfoWindow name={this.props.name} />}
       </div>
     );
   }
@@ -196,6 +217,35 @@ class AnyReactComponent extends React.Component {
 class Map extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      results: [],
+    }
+  }
+
+  _onChildClick = (key, childProps) => {
+    console.log(key)
+    console.log(childProps)
+    console.log(this.state)
+    this.setState((state) => {
+      const index = state.results.findIndex(e => e._rowNumber == parseInt(key));
+      state.results[index].show = !state.results[index].show; // eslint-disable-line no-param-reassign
+      return { results: state.results };
+    });
+    // const markerId = childProps.marker.get('id');
+    // const index = this.props.markers.findIndex(m => m.get('id') === markerId);
+    // if (this.props.onChildClick) {
+    //   this.props.onChildClick(index);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.results != prevProps.results) {
+      this.setState(() => {
+        const newState = this.props.results.map(result => ({ ...result, show: false }));
+        return { results: newState };
+      })
+    }
   }
 
   render() {
@@ -206,14 +256,15 @@ class Map extends React.Component {
           bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
-          hoverDistance={K_SIZE / 2}
+          onChildClick={this._onChildClick}
         >
-          {this.props.results.map((item) =>
-            <AnyReactComponent
-              key={item.id}
+          {this.state.results.map((item) =>
+            <MapMarker
+              key={item._rowNumber}
               lat={item.Latitude}
               lng={item.Longitude}
-              text={item.Name}
+              name={item.Name}
+              show={item.show}
             />,
           )}
         </GoogleMapReact>
@@ -397,7 +448,7 @@ class App extends React.Component {
         <h5 className="title has-text-centered">
           Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
-        <AppTable />
+        {/* <AppTable /> */}
       </div>
     );
   }
