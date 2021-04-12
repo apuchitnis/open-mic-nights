@@ -2,9 +2,44 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './scrollable.css';
-import { useTable } from 'react-table'
+import { useFilters, useTable } from 'react-table'
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
+
+// This is a custom filter UI for selecting
+// a unique option from a list
+function SelectColumnFilter({
+  column: { filterValue, setFilter, preFilteredRows, id },
+}) {
+  // Calculate the options for filtering
+  // using the preFilteredRows
+  const options = React.useMemo(() => {
+    const options = new Set()
+    preFilteredRows.forEach(row => {
+      options.add(row.values[id])
+    })
+    return [...options.values()]
+  }, [id, preFilteredRows])
+  console.log(options)
+
+  // Render a multi-select box
+  return (
+    <select
+      value={filterValue}
+      onChange={e => {
+        setFilter(e.target.value || undefined)
+      }}
+    >
+      <option value="">All</option>
+      {options.map((option, i) => (
+        <option key={i} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  )
+}
+
 
 function AppTable() {
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
@@ -32,7 +67,16 @@ function AppTable() {
   const rowsData = React.useMemo(
     () => {
       if (!data.isFetching && data.headerValues != null) {
-        return data.rows.map((item) => { return { Name: item.Name } })
+        console.log(data.rows)
+        return data.rows.map((item) => {
+          return {
+            Bringer: item.Bringer,
+            FacebookPage: item.FacebookPage,
+            Frequency: item.Frequency,
+            Name: item.Name,
+            Venue: item.Venue,
+          }
+        })
       }
 
       return [
@@ -56,7 +100,30 @@ function AppTable() {
   const columns = React.useMemo(
     () => {
       if (!data.isFetching && data.headerValues != null) {
-        return data.headerValues.map((item) => { return { Header: item, accessor: item }; })
+        // return data.headerValues.map((item) => { return { Header: item, accessor: item }; })
+        return [
+          {
+            Header: 'Bringer',
+            accessor: 'Bringer',
+            Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'Facebook Page',
+            accessor: 'FacebookPage',
+          },
+          {
+            Header: 'Frequency',
+            accessor: 'Frequency',
+          },
+          {
+            Header: 'Name',
+            accessor: 'Name',
+          },
+          {
+            Header: 'Venue',
+            accessor: 'Venue',
+          },
+        ]
       }
 
       return [
@@ -73,13 +140,40 @@ function AppTable() {
     [data]
   )
 
+  const filterTypes = React.useMemo(
+    () => ({
+      // Or, override the default text filter to use
+      // "startWith"
+      text: (rows, id, filterValue) => {
+        return rows.filter(row => {
+          const rowValue = row.values[id]
+          return rowValue !== undefined
+            ? String(rowValue)
+              .toLowerCase()
+              .startsWith(String(filterValue).toLowerCase())
+            : true
+        })
+      },
+    }),
+    []
+  )
+
+  const defaultColumn = React.useMemo(
+    () => ({
+        Filter: SelectColumnFilter,
+    }),
+    []
+  )
+
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data: rowsData })
+    state,
+  } = useTable({ columns, data: rowsData, defaultColumn, filterTypes }, useFilters)
 
   return (
     <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
@@ -97,6 +191,7 @@ function AppTable() {
                 }}
               >
                 {column.render('Header')}
+                <div>{column.canFilter ? column.render("Filter") : null}</div>
               </th>
             ))}
           </tr>
@@ -188,7 +283,7 @@ class Map extends React.Component {
   _onChildClick = (key, childProps) => {
     this.setState((state) => {
       let index = state.results.findIndex(e => e.show);
-      if (index >0 && state.results[index]._rowNumber != parseInt(key)) {
+      if (index > 0 && state.results[index]._rowNumber != parseInt(key)) {
         state.results[index].show = false;
       }
       index = state.results.findIndex(e => e._rowNumber == parseInt(key));
@@ -400,7 +495,7 @@ class App extends React.Component {
         <h5 className="title has-text-centered">
           Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
-        {/* <AppTable /> */}
+        <AppTable />
       </div>
     );
   }
