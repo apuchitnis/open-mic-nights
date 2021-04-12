@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './scrollable.css';
-import './hover.css'
 import { useTable } from 'react-table'
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
@@ -130,44 +129,13 @@ function AppTable() {
   )
 }
 
-const K_SIZE = 150;
-
-const greatPlaceStyle = {
-  // initially any map object has left top corner at lat lng coordinates
-  // it's on you to set object origin to 0,0 coordinates
-  position: 'absolute',
-  transform: 'translate(-50%, -100%)',
-  //background: 'green',
-  transition: 'transform .2s',
-  cursor: 'pointer',
-  '&hover:': {
-    background: 'green',
-    transform: 'scale(1.5)',
-  },
-};
-
-// const greatPlaceStyleHover = {
-//   // initially any map object has left top corner at lat lng coordinates
-//   // it's on you to set object origin to 0,0 coordinates
-//   position: 'absolute',
-//   transition: 'transform .2s',
-
-//   // width: K_SIZE,
-//   // height: K_SIZE,
-//   // left: -K_SIZE / 2,
-//   // top: -K_SIZE / 2,
-//   cursor: 'pointer',
-//   '&:hover': {
-//     transform: "scale(1.5)",
-//   },
-// };
-
 const InfoWindow = (props) => {
   const { name } = props;
   const infoWindowStyle = {
     position: 'relative',
-    bottom: 150,
+    bottom: 50,
     left: '-45px',
+    textAlign: 'center',
     width: 220,
     backgroundColor: 'white',
     boxShadow: '0 2px 7px 1px rgba(0, 0, 0, 0.3)',
@@ -191,23 +159,17 @@ class MapMarker extends React.Component {
   }
 
   render() {
-    // const style = this.props.$hover ? greatPlaceStyle : greatPlaceStyle;
-    // const text = ""//this.props.$hover ? this.props.text : '';
-    const img = <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Google_Maps_pin.svg"></img>;
     const markerStyle = {
       border: '1px solid white',
       borderRadius: '50%',
-      height: 10,
-      width: 10,
+      height: 20,
+      width: 20,
       backgroundColor: this.props.show ? 'red' : 'blue',
       cursor: 'pointer',
       zIndex: 10,
     };
-    console.log(this.props.show)
-
     return (
-      <div style={markerStyle}/*className="pin"*/>
-        {/* {img} */}
+      <div style={markerStyle}>
         {this.props.show && <InfoWindow name={this.props.name} />}
       </div>
     );
@@ -224,19 +186,15 @@ class Map extends React.Component {
   }
 
   _onChildClick = (key, childProps) => {
-    console.log(key)
-    console.log(childProps)
-    console.log(this.state)
     this.setState((state) => {
-      const index = state.results.findIndex(e => e._rowNumber == parseInt(key));
+      let index = state.results.findIndex(e => e.show);
+      if (index >0 && state.results[index]._rowNumber != parseInt(key)) {
+        state.results[index].show = false;
+      }
+      index = state.results.findIndex(e => e._rowNumber == parseInt(key));
       state.results[index].show = !state.results[index].show; // eslint-disable-line no-param-reassign
       return { results: state.results };
     });
-    // const markerId = childProps.marker.get('id');
-    // const index = this.props.markers.findIndex(m => m.get('id') === markerId);
-    // if (this.props.onChildClick) {
-    //   this.props.onChildClick(index);
-    // }
   }
 
   componentDidUpdate(prevProps) {
@@ -254,8 +212,8 @@ class Map extends React.Component {
       <div style={{ height: '95vh', width: '95vh' }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
+          defaultCenter={{ lat: 51.5074, lng: -0.05 }}
+          defaultZoom={14}
           onChildClick={this._onChildClick}
         >
           {this.state.results.map((item) =>
@@ -272,12 +230,6 @@ class Map extends React.Component {
     );
   }
 }
-
-Map.defaultProps = {
-  center: { lat: 51.5074, lng: -0.05 },
-  zoom: 14,
-};
-
 
 class Results extends React.Component {
   constructor(props) {
@@ -319,7 +271,7 @@ class Results extends React.Component {
                   <div className="dropdown-menu" id="dropdown-menu" role="menu">
                     <div className="dropdown-content">
                       {frequencies.map((item) =>
-                        <a className="dropdown-item" onClick={(e) => {
+                        <a className="dropdown-item" key={item} onClick={(e) => {
                           this.setButtonText(e, 'frequency'); this.props.handleChange(e);
                         }}>
                           {item}
