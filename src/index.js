@@ -213,13 +213,45 @@ class MapMarker extends React.Component {
     );
   }
 }
+const getInfoWindowString = (place) => `
+    <div>
+      <div style="font-size: 16px;">
+        ${place.Name}
+      </div>
+    </div>`;
+
+// Refer to https://github.com/google-map-react/google-map-react#use-google-maps-api
+const handleApiLoaded = (map, maps, places) => {
+  const markers = [];
+  const infowindows = [];
+
+  places.forEach((place) => {
+    markers.push(new maps.Marker({
+      position: {
+        lat: parseFloat(place.Latitude),
+        lng: parseFloat(place.Longitude),
+      },
+      map,
+    }));
+
+    infowindows.push(new maps.InfoWindow({
+      content: getInfoWindowString(place),
+    }));
+  });
+
+  markers.forEach((marker, i) => {
+    marker.addListener('click', () => {
+      infowindows[i].open(map, marker);
+    });
+  });
+};
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      results: [],
+      places: [],
     }
   }
 
@@ -240,25 +272,31 @@ class Map extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.results != prevProps.results) {
+    if (this.props.places != prevProps.places) {
       this.setState(() => {
-        const newState = this.props.results.map(result => ({ ...result, show: false }));
-        return { results: newState };
+        const newPlaces = this.props.places.map(place => ({ ...place, show: false }));
+        return { places: newPlaces };
       })
     }
   }
 
   render() {
+    const places = this.state.places;
+    console.log(places.length)
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '95vh', width: '95vh' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
-          onChildClick={this._onChildClick}
-        >
-          {this.state.results.map((item) =>
+        {(places.length > 0) && (
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
+            defaultCenter={{ lat: 51.5074, lng: -0.05 }}
+            defaultZoom={14}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps, places)}
+
+          // onChildClick={this._onChildClick}
+          >
+            {/* {this.state.results.map((item) =>
             <MapMarker
               key={item._rowNumber}
               lat={item.Latitude}
@@ -266,18 +304,13 @@ class Map extends React.Component {
               name={item.Name}
               show={item.show}
             />,
-          )}
-        </GoogleMapReact>
+          )} */}
+          </GoogleMapReact>
+        )}
       </div>
     );
   }
 }
-
-Map.defaultProps = {
-  center: { lat: 51.5074, lng: -0.05 },
-  zoom: 14,
-};
-
 
 class Results extends React.Component {
   constructor(props) {
@@ -441,7 +474,7 @@ class App extends React.Component {
           </div>
           <div className="level-item">
             <Map
-              results={this.state.results}
+              places={this.state.results}
             />
           </div>
         </nav>
