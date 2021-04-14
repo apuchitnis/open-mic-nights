@@ -75,6 +75,8 @@ function AppTable() {
             Frequency: item.Frequency,
             Name: item.Name,
             Venue: item.Venue,
+            Latitude: item.Latitude,
+            Longitude: item.Longitude,
           }
         })
       }
@@ -122,6 +124,14 @@ function AppTable() {
           {
             Header: 'Venue',
             accessor: 'Venue',
+          },
+          {
+            Header: 'Latitude',
+            accessor: 'Latitude',
+          },
+          {
+            Header: 'Longitude',
+            accessor: 'Longitude',
           },
         ]
       }
