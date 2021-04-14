@@ -20,7 +20,6 @@ function SelectColumnFilter({
     })
     return [...options.values()]
   }, [id, preFilteredRows])
-  console.log(options)
 
   // Render a multi-select box
   return (
@@ -67,9 +66,9 @@ function AppTable() {
   const rowsData = React.useMemo(
     () => {
       if (!data.isFetching && data.headerValues != null) {
-        console.log(data.rows)
         return data.rows.map((item) => {
           return {
+            RowNumber: item.rowNumber,
             Bringer: item.Bringer,
             FacebookPage: item.FacebookPage,
             Frequency: item.Frequency,
@@ -133,6 +132,10 @@ function AppTable() {
             Header: 'Longitude',
             accessor: 'Longitude',
           },
+          {
+            Header: 'RowNumber',
+            acccessor: 'RowNumber',
+          }
         ]
       }
 
@@ -170,7 +173,7 @@ function AppTable() {
 
   const defaultColumn = React.useMemo(
     () => ({
-        Filter: SelectColumnFilter,
+      Filter: SelectColumnFilter,
     }),
     []
   )
@@ -186,51 +189,62 @@ function AppTable() {
   } = useTable({ columns, data: rowsData, defaultColumn, filterTypes }, useFilters)
 
   return (
-    <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th
-                {...column.getHeaderProps()}
-                style={{
-                  borderBottom: 'solid 3px red',
-                  background: 'aliceblue',
-                  color: 'black',
-                  fontWeight: 'bold',
-                }}
-              >
-                {column.render('Header')}
-                <div>{column.canFilter ? column.render("Filter") : null}</div>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return (
-                  <td
-                    {...cell.getCellProps()}
+    <div>
+      <div>
+        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th
+                    {...column.getHeaderProps()}
                     style={{
-                      padding: '10px',
-                      border: 'solid 1px gray',
-                      background: 'papayawhip',
+                      borderBottom: 'solid 3px red',
+                      background: 'aliceblue',
+                      color: 'black',
+                      fontWeight: 'bold',
                     }}
                   >
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
+                    {column.render('Header')}
+                    <div>{column.canFilter ? column.render("Filter") : null}</div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map(row => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return (
+                      <td
+                        {...cell.getCellProps()}
+                        style={{
+                          padding: '10px',
+                          border: 'solid 1px gray',
+                          background: 'papayawhip',
+                        }}
+                      >
+                        {cell.render('Cell')}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div className="level-item">
+          <Map
+            results={rows}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -293,10 +307,10 @@ class Map extends React.Component {
   _onChildClick = (key, childProps) => {
     this.setState((state) => {
       let index = state.results.findIndex(e => e.show);
-      if (index > 0 && state.results[index]._rowNumber != parseInt(key)) {
+      if (index > 0 && state.results[index].original.RowNumber != parseInt(key)) {
         state.results[index].show = false;
       }
-      index = state.results.findIndex(e => e._rowNumber == parseInt(key));
+      index = state.results.findIndex(e => e.original.RowNumber == parseInt(key));
       state.results[index].show = !state.results[index].show; // eslint-disable-line no-param-reassign
       return { results: state.results };
     });
@@ -323,10 +337,10 @@ class Map extends React.Component {
         >
           {this.state.results.map((item) =>
             <MapMarker
-              key={item._rowNumber}
-              lat={item.Latitude}
-              lng={item.Longitude}
-              name={item.Name}
+              key={item.original.RowNumber}
+              lat={item.original.Latitude}
+              lng={item.original.Longitude}
+              name={item.original.Name}
               show={item.show}
             />,
           )}
@@ -496,16 +510,13 @@ class App extends React.Component {
               handleChange={() => this.handleChange()}
             />
           </div>
-          <div className="level-item">
-            <Map
-              results={this.state.results}
-            />
-          </div>
         </nav>
         <h5 className="title has-text-centered">
           Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
-        <AppTable />
+        <div>
+          <AppTable />
+        </div>
       </div>
     );
   }
