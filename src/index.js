@@ -20,7 +20,6 @@ function SelectColumnFilter({
     })
     return [...options.values()]
   }, [id, preFilteredRows])
-  console.log(options)
 
   // Render a multi-select box
   return (
@@ -45,24 +44,23 @@ function AppTable() {
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
 
   useEffect(() => {
-    (async function () {
-      try {
-        setData({ ...data, isFetching: true });
+      setData({ ...data, isFetching: true });
 
-        const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
-        doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
-        await doc.loadInfo();
+      const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
+      doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
 
-        const sheet = doc.sheetsByIndex[0]
-        const rows = await sheet.getRows()
+      let loadInfo = doc.loadInfo()
+      let getRows = loadInfo.then(() => {
+        return doc.sheetsByIndex[0].getRows()
+      })
 
-        setData({ headerValues: sheet.headerValues, rows: rows, isFetching: false });
-      } catch (e) {
-        console.log(e);
+      Promise.all([loadInfo, getRows]).then(([_, getRowsResult]) => {
+        setData({ headerValues: doc.sheetsByIndex[0].headerValues, rows: getRowsResult, isFetching: false });
+      }).catch((error) => {
+        console.log(error);
         setData({ ...data, isFetching: false });
-      }
-    }());
-  }, []);
+      })
+    }, []);
 
   const rowsData = React.useMemo(
     () => {
@@ -160,7 +158,7 @@ function AppTable() {
 
   const defaultColumn = React.useMemo(
     () => ({
-        Filter: SelectColumnFilter,
+      Filter: SelectColumnFilter,
     }),
     []
   )
