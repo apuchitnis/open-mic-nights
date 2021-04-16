@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
-import './scrollable.css';
+import './styles.css';
 import { useFilters, useTable } from 'react-table'
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
@@ -504,19 +504,11 @@ class App extends React.Component {
           </div>
         </div>
         <nav className="level">
-          <div className="level-item">
-            <Results
-              results={this.state.results}
-              handleChange={() => this.handleChange()}
-            />
-          </div>
+            <AppTable />
         </nav>
         <h5 className="title has-text-centered">
           Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
         </h5>
-        <div>
-          <AppTable />
-        </div>
       </div>
     );
   }
