@@ -40,7 +40,7 @@ function SelectColumnFilter({
 }
 
 
-function AppTable() {
+function TableAndMap() {
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
 
   useEffect(() => {
@@ -80,20 +80,7 @@ function AppTable() {
         })
       }
 
-      return [
-        {
-          col1: 'Hello',
-          col2: 'World',
-        },
-        {
-          col1: 'react-table',
-          col2: 'rocks',
-        },
-        {
-          col1: 'whatever',
-          col2: 'you want',
-        },
-      ]
+      return []
     },
     [data]
   )
@@ -139,16 +126,7 @@ function AppTable() {
         ]
       }
 
-      return [
-        {
-          Header: 'Column 1',
-          accessor: 'col1', // accessor is the "key" in the data
-        },
-        {
-          Header: 'Column 2',
-          accessor: 'col2',
-        },
-      ]
+      return []
     },
     [data]
   )
@@ -238,7 +216,7 @@ function AppTable() {
         </table>
       </div>
       <div>
-        <div className="level-item">
+        <div>
           <Map
             results={rows}
           />
@@ -350,203 +328,20 @@ class Map extends React.Component {
   }
 }
 
-class Results extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  toggleIsActive(e) {
-    e.currentTarget.classList.toggle('is-active');
-  }
-
-  setButtonText(e, id) {
-    document.getElementById(id).textContent = e.target.textContent;
-  }
-
-  render() {
-    const frequencies = Array.from(new Set(this.props.results.map((item) => item.Frequency)));
-    return (
-      <div className="table-container">
-        <table className="table is-striped is-hoverable" height='800px' width='800px'>
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>frequency</th>
-              <th>city</th>
-              <th>venue</th>
-              <th>bringer night</th>
-            </tr>
-          </thead>
-          <thead>
-            <tr>
-              <th></th>
-              <th>
-                <div className="dropdown" onClick={this.toggleIsActive}>
-                  <div className="dropdown-trigger">
-                    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span id="frequency">filter frequency</span>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      {frequencies.map((item) =>
-                        <a className="dropdown-item" key={item} onClick={(e) => {
-                          this.setButtonText(e, 'frequency'); this.props.handleChange(e);
-                        }}>
-                          {item}
-                        </a>,
-                      )}
-                      <a className="dropdown-item" onClick={(e) => {
-                        this.setButtonText(e, 'frequency'); this.props.handleChange(e);
-                      }}>
-                        any frequency
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </th>
-              <th></th>
-              <th></th>
-              <th>
-                <div className="dropdown" onClick={this.toggleIsActive}>
-                  <div className="dropdown-trigger">
-                    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span id="bringer">filter bringer night</span>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a className="dropdown-item" onClick={(e) => {
-                        this.setButtonText(e, 'bringer'); this.props.handleChange(e);
-                      }}>
-                        only bringer night
-                      </a>
-                      <a className="dropdown-item" onClick={(e) => {
-                        this.setButtonText(e, 'bringer'); this.props.handleChange(e);
-                      }}>
-                        not bringer night
-                      </a>
-                      <a className="dropdown-item" onClick={(e) => {
-                        this.setButtonText(e, 'bringer'); this.props.handleChange(e);
-                      }}>
-                        don't care
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.results.slice(0, 500).map((item) => (
-              <tr key={item.Name}>
-                <th>
-                  <a href={item.FacebookPage}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
-                    </svg>
-                  </a>
-                  <span> </span>
-                  {item.Website != '' ?
-                    <a href={item.Website}>
-                      {item.Name}
-                    </a> : item.Name
-                  }
-                </th>
-                <td>{item.Frequency}</td>
-                <td>{item.City}</td>
-                <td>{item.Venue}</td>
-                <td>{item.Bringer}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rows: [],
-      results: [],
-    };
-  }
-
-  async componentDidMount() {
-    const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
-    doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
-    await doc.loadInfo();
-    const sheet = doc.sheetsByIndex[0]
-    const rows = await sheet.getRows()
-    this.setState({
-      results: rows,
-      rows: rows,
-    });
-  };
-
-  render() {
-    return (
-      <div className="section">
-        <h1 className="title has-text-centered">
-          Search Open Mic Nights in London
-        </h1>
-        <div className="field">
-          <div className="control">
-            <input
-              type="text"
-              id="search"
-              className="input"
-              onChange={() => this.handleChange()}
-              placeholder="Try 'Angel Comedy'..."
-            />
-          </div>
-        </div>
-        <nav className="level">
-            <AppTable />
-        </nav>
-        <h5 className="title has-text-centered">
-          Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
-        </h5>
-      </div>
-    );
-  }
-
-  handleChange() {
-    let newResults = this.state.rows;
-
-    const search = document.getElementById('search');
-    if (search.value !== '') {
-      newResults = newResults.filter((item) => {
-        const name = item.Name.toLowerCase();
-        const city = item.City.toLowerCase();
-        const venue = item.Venue.toLowerCase();
-        const filter = search.value.toLowerCase();
-        return name.includes(filter) || city.includes(filter) || venue.includes(filter);
-      });
-    }
-
-    const frequency = document.getElementById('frequency').textContent;
-    newResults = newResults.filter((item) => {
-      if ((item.Frequency == frequency) || (frequency === 'filter frequency') || (frequency === 'any frequency')) {
-        return true;
-      }
-      return false;
-    });
-
-    const bringer = document.getElementById('bringer').textContent;
-    newResults = newResults.filter((item) => {
-      if ((item.bringer && bringer === 'only bringer night') || (!item.bringer && bringer === 'not bringer night') || (bringer === 'don\'t care') || (bringer === 'filter bringer night')) {
-        return true;
-      }
-      return false;
-    });
-
-    this.setState({
-      results: newResults,
-    });
-  }
+function App() {
+  return (
+    <div>
+      <h1>
+        Search Open Mic Nights in London
+      </h1>
+      <nav>
+        <TableAndMap />
+      </nav>
+      <h5>
+        Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+      </h5>
+    </div>
+  );
 }
 
 const rootElement = document.getElementById('app');
