@@ -5,15 +5,15 @@
     "main.js.map": "/open-mic-nights/static/js/main.d42ec268.chunk.js.map",
     "runtime-main.js": "/open-mic-nights/static/js/runtime-main.5922ee83.js",
     "runtime-main.js.map": "/open-mic-nights/static/js/runtime-main.5922ee83.js.map",
-    "static/js/2.4ac31e3f.chunk.js": "/open-mic-nights/static/js/2.4ac31e3f.chunk.js",
-    "static/js/2.4ac31e3f.chunk.js.map": "/open-mic-nights/static/js/2.4ac31e3f.chunk.js.map",
+    "static/js/2.2ac0326b.chunk.js": "/open-mic-nights/static/js/2.2ac0326b.chunk.js",
+    "static/js/2.2ac0326b.chunk.js.map": "/open-mic-nights/static/js/2.2ac0326b.chunk.js.map",
     "index.html": "/open-mic-nights/index.html",
     "static/css/main.f2700782.chunk.css.map": "/open-mic-nights/static/css/main.f2700782.chunk.css.map",
-    "static/js/2.4ac31e3f.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.4ac31e3f.chunk.js.LICENSE.txt"
+    "static/js/2.2ac0326b.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.2ac0326b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.5922ee83.js",
-    "static/js/2.4ac31e3f.chunk.js",
+    "static/js/2.2ac0326b.chunk.js",
     "static/css/main.f2700782.chunk.css",
     "static/js/main.d42ec268.chunk.js"
   ]
