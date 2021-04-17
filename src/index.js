@@ -169,7 +169,7 @@ function TableAndMap() {
   return (
     <div>
       <div>
-        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+        <table {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
@@ -215,13 +215,11 @@ function TableAndMap() {
           </tbody>
         </table>
       </div>
-      <div>
-        <div>
-          <Map
-            results={rows}
-          />
-        </div>
-      </div>
+      <span>
+        <Map
+          results={rows}
+        />
+      </span>
     </div>
   )
 }
@@ -306,7 +304,7 @@ class Map extends React.Component {
   render() {
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: '95vh', width: '95vh' }}>
+      <div id="map">
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
           defaultCenter={{ lat: 51.5074, lng: -0.05 }}
