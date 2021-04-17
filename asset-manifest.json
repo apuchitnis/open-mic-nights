@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/open-mic-nights/static/css/main.412319ff.chunk.css",
+    "main.js": "/open-mic-nights/static/js/main.d42ec268.chunk.js",
+    "main.js.map": "/open-mic-nights/static/js/main.d42ec268.chunk.js.map",
+    "runtime-main.js": "/open-mic-nights/static/js/runtime-main.5922ee83.js",
+    "runtime-main.js.map": "/open-mic-nights/static/js/runtime-main.5922ee83.js.map",
+    "static/js/2.4ac31e3f.chunk.js": "/open-mic-nights/static/js/2.4ac31e3f.chunk.js",
+    "static/js/2.4ac31e3f.chunk.js.map": "/open-mic-nights/static/js/2.4ac31e3f.chunk.js.map",
+    "index.html": "/open-mic-nights/index.html",
+    "static/css/main.412319ff.chunk.css.map": "/open-mic-nights/static/css/main.412319ff.chunk.css.map",
+    "static/js/2.4ac31e3f.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.4ac31e3f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5922ee83.js",
+    "static/js/2.4ac31e3f.chunk.js",
+    "static/css/main.412319ff.chunk.css",
+    "static/js/main.d42ec268.chunk.js"
+  ]
+}
