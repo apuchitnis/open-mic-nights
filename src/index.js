@@ -182,7 +182,6 @@ function TableAndMap() {
                   <th
                     {...column.getHeaderProps()}
                     style={{
-                      borderBottom: 'solid 3px red',
                       background: 'aliceblue',
                       color: 'black',
                       fontWeight: 'bold',
@@ -206,7 +205,6 @@ function TableAndMap() {
                         {...cell.getCellProps()}
                         style={{
                           padding: '10px',
-                          border: 'solid 1px gray',
                           background: 'papayawhip',
                         }}
                       >
@@ -336,7 +334,7 @@ function App() {
         <TableAndMap />
       </nav>
       <h5>
-        Website created with ❤ by <a href="https://github.com/apuchitnis">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+        Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
       </h5>
     </div>
   );

@@ -4,23 +4,30 @@ html, body {
     padding: 0;
 }
 
+h1 {
+    text-align: center;
+}
+
 #map {
     /* Need to set map width and height explicitly */
     height: 80vh;
-    width: 45vw;
+    width: 40vw;
 }
 
 span.map {
     display: inline-block;
+    margin-inline: 10px;
+    float: left;
 }
 
 span.table {
     display: inline-block;
+    margin-inline: 10px;
 }
 
 table {
     display: inline-block;
     height: 80vh;
-    width: 54vw;
+    width: 56vw;
     overflow: auto;
 }
