@@ -22,5 +22,5 @@ table {
     display: inline-block;
     height: 80vh;
     width: 45vw;
-    overflow-y: auto;
+    overflow: auto;
 }
