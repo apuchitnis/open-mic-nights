@@ -1,16 +1,26 @@
-#map {
-    height: 100vh;
-    width: 100vw;
-}
-
-table {
-    height: 80vh;
-    overflow-y: auto;
-    display: block;
-}
-
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+#map {
+    /* Need to set map width and height explicitly */
+    height: 80vh;
+    width: 45vw;
+}
+
+span.map {
+    display: inline-block;
+}
+
+span.table {
+    display: inline-block;
+}
+
+table {
+    display: inline-block;
+    height: 80vh;
+    width: 45vw;
+    overflow-y: auto;
 }

@@ -168,7 +168,12 @@ function TableAndMap() {
 
   return (
     <div>
-      <div>
+      <span className="map">
+        <Map
+          results={rows}
+        />
+      </span>
+      <span className="table">
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
@@ -214,11 +219,6 @@ function TableAndMap() {
             })}
           </tbody>
         </table>
-      </div>
-      <span>
-        <Map
-          results={rows}
-        />
       </span>
     </div>
   )
