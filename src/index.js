@@ -322,15 +322,6 @@ class Map extends React.Component {
 function App() {
   return (
     <div>
-      <div className="has-background-light py-4 mb-2">
-        <p className="title">
-          🎙Search Open Mic Nights in London
-      </p>
-        <p className="subtitle mx-3">
-          Find a night to perform at.
-      </p>
-      </div>
-
       <nav className="navbar is-white has-shadow py-4 mb-2">
         <div className="navbar-brand">
           <a className="navbar-item">
@@ -359,9 +350,7 @@ function App() {
 
       <TableAndMap />
 
-      {/* section of a page with responsive padding */}
       <div className="section">
-        {/* centers the page horizontally */}
         <div className="container">
           <div className="columns">
             <div className="column has-text-weight-bold	has-text-right">
