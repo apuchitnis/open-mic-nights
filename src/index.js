@@ -173,19 +173,14 @@ function TableAndMap() {
           results={rows}
         />
       </span>
-      <span className="table">
-        <table {...getTableProps()}>
+      <span>
+        <table className="table is-hoverable" {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th
                     {...column.getHeaderProps()}
-                    style={{
-                      background: 'aliceblue',
-                      color: 'black',
-                      fontWeight: 'bold',
-                    }}
                   >
                     {column.render('Header')}
                     <div>{column.canFilter ? column.render("Filter") : null}</div>
@@ -203,10 +198,6 @@ function TableAndMap() {
                     return (
                       <td
                         {...cell.getCellProps()}
-                        style={{
-                          padding: '10px',
-                          background: 'papayawhip',
-                        }}
                       >
                         {cell.render('Cell')}
                       </td>
@@ -327,12 +318,10 @@ class Map extends React.Component {
 function App() {
   return (
     <div>
-      <h1>
+      <h1 className="title">
         Search Open Mic Nights in London
       </h1>
-      <nav>
-        <TableAndMap />
-      </nav>
+      <TableAndMap />
       <h5>
         Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
       </h5>
