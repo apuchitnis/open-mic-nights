@@ -318,9 +318,14 @@ class Map extends React.Component {
 function App() {
   return (
     <div>
-      <h1 className="title">
-        Search Open Mic Nights in London
-      </h1>
+      <div className="has-background-light py-4 my-2">
+        <p className="title">
+          🎙Search Open Mic Nights in London
+      </p>
+        <p className="subtitle mx-3">
+          Find a night to perform at.
+      </p>
+      </div>
       <TableAndMap />
       <h5>
         Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.

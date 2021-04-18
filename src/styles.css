@@ -1,5 +1,4 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css";
-
 #map {
     /* Need to set map width and height explicitly */
     height: 80vh;
@@ -15,8 +14,6 @@ span table {
     display: inline-block;
     margin-inline: 10px;
 }
-
-
 
 table {
     height: 80vh;
