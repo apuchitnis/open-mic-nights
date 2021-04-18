@@ -170,14 +170,14 @@ function TableAndMap() {
 
   return (
     <div>
-      <div className="columns">
-        <span className="column map">
+      <div className="columns is-multiline">
+        <span className="map column is-12-mobile is-5-desktop">
           <Map
             results={rows}
           />
         </span>
-        <span>
-          <table className="column table is-hoverable" {...getTableProps()}>
+        <span className="column is-12-mobile is-7-desktop">
+          <table className=" table is-hoverable" {...getTableProps()}>
             <thead>
               {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>

@@ -2,24 +2,23 @@
 #map {
     /* Need to set map width and height explicitly */
     height: 80vh;
-    width: 40vw;
-    /* min-width: 300px; */
 }
 
 span.map {
     display: inline-block;
-    margin-inline: 10px;
-    /* margin-left: 10px; */
 }
 
 span table {
     display: inline-block;
-    margin-inline: 10px;
 }
 
 table {
     height: 80vh;
-    width: 56vw;
-    /* min-width: 56vw; */
+    /* You need to set a width for overflow to be shown.*/
+    /* This value is a hack:
+    in desktop mode, bulma makes the parent column elementof  the table 50% of the viewport size
+    this setting makes the element try to expand out of it's box
+    this fails, so a scroll bar is shown */
+    width: 100vw;
     overflow: auto;
 }
