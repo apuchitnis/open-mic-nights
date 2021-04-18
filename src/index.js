@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './styles.css';
 import { useFilters, useTable } from 'react-table'
+import logo from './apple-touch-icon.png';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -41,6 +42,7 @@ function SelectColumnFilter({
 
 
 function TableAndMap() {
+  console.log(logo)
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
 
   useEffect(() => {
@@ -326,11 +328,38 @@ function App() {
           Find a night to perform at.
       </p>
       </div>
+
+      <nav className="navbar is-white has-shadow py-4 mb-2">
+        <div className="navbar-brand">
+          <a className="navbar-item">
+            <img src={logo} style={{ maxHeight: "60px" }} />
+          </a>
+          <div className="navbar-item">
+            <p className="title">
+              🎙Search Open Mic Nights in London
+            </p>
+          </div>
+          <div className="navbar-burger" onClick={() => document.getElementById("nav-links").classList.toggle("is-active")}>
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </div>
+        </div>
+        <div className="navbar-menu" id="nav-links">
+          <div className="navbar-end">
+            <a className="navbar-item">Facebook</a>
+            <a className="navbar-item">Sheet</a>
+            <a className="navbar-item">  🙏</a>
+          </div>
+        </div>
+      </nav>
+
       <TableAndMap />
-      <p className="my-2 mx-2">
-        Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+      <p className="has-text-centered my-2 mx-2">
+          Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
       </p>
-    </div >
+    </div>
   );
 }
 
