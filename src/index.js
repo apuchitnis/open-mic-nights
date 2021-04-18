@@ -352,12 +352,37 @@ function App() {
           <div className="navbar-end">
             <a className="navbar-item">Facebook</a>
             <a className="navbar-item">Sheet</a>
-            <a className="navbar-item">  🙏</a>
+            <a className="navbar-item">🙏 Submit feedback 🙏</a>
           </div>
         </div>
       </nav>
 
       <TableAndMap />
+
+      {/* section of a page with responsive padding */}
+      <div className="section">
+        {/* centers the page horizontally */}
+        <div className="container">
+          <div className="columns">
+            <div className="column has-text-weight-bold	has-text-right">
+              My night's details are out of date! How do I update this?
+            </div>
+            <div className="column">
+              Just let us know: email addr.
+            </div>
+          </div>
+
+          <div className="columns">
+            <div className="column has-text-weight-semibold	has-text-right">
+              My night isn't listed! How can I add it?
+            </div>
+            <div className="column">
+              You guessed it - just let us know: email addr.
+            </div>
+          </div>
+
+        </div>
+      </div>
       <p className="has-text-centered my-2 mx-2">
         Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
       </p>
