@@ -170,47 +170,49 @@ function TableAndMap() {
 
   return (
     <div>
-      <span className="map">
-        <Map
-          results={rows}
-        />
-      </span>
-      <span>
-        <table className="table is-hoverable" {...getTableProps()}>
-          <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th
-                    {...column.getHeaderProps()}
-                  >
-                    {column.render('Header')}
-                    <div>{column.canFilter ? column.render("Filter") : null}</div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })}
+      <div className="columns">
+        <span className="column map">
+          <Map
+            results={rows}
+          />
+        </span>
+        <span>
+          <table className="column table is-hoverable" {...getTableProps()}>
+            <thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <th
+                      {...column.getHeaderProps()}
+                    >
+                      {column.render('Header')}
+                      <div>{column.canFilter ? column.render("Filter") : null}</div>
+                    </th>
+                  ))}
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </span>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {rows.map(row => {
+                prepareRow(row)
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return (
+                        <td
+                          {...cell.getCellProps()}
+                        >
+                          {cell.render('Cell')}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </span>
+      </div>
     </div>
   )
 }
@@ -357,7 +359,7 @@ function App() {
 
       <TableAndMap />
       <p className="has-text-centered my-2 mx-2">
-          Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+        Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
       </p>
     </div>
   );
