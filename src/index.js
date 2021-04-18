@@ -253,7 +253,6 @@ class MapMarker extends React.Component {
       height: 20,
       width: 20,
       backgroundColor: this.props.show ? 'red' : 'blue',
-      cursor: 'pointer',
       zIndex: 10,
     };
     return (
