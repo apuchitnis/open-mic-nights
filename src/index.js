@@ -318,7 +318,7 @@ class Map extends React.Component {
 function App() {
   return (
     <div>
-      <div className="has-background-light py-4 my-2">
+      <div className="has-background-light py-4 mb-2">
         <p className="title">
           🎙Search Open Mic Nights in London
       </p>
@@ -327,10 +327,10 @@ function App() {
       </p>
       </div>
       <TableAndMap />
-      <h5>
+      <p className="my-2 mx-2">
         Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
-      </h5>
-    </div>
+      </p>
+    </div >
   );
 }
 
