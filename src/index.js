@@ -113,18 +113,18 @@ function TableAndMap() {
             Header: 'Venue',
             accessor: 'Venue',
           },
-          {
-            Header: 'Latitude',
-            accessor: 'Latitude',
-          },
-          {
-            Header: 'Longitude',
-            accessor: 'Longitude',
-          },
-          {
-            Header: 'RowNumber',
-            acccessor: 'RowNumber',
-          }
+          // {
+          //   Header: 'Latitude',
+          //   accessor: 'Latitude',
+          // },
+          // {
+          //   Header: 'Longitude',
+          //   accessor: 'Longitude',
+          // },
+          // {
+          //   Header: 'RowNumber',
+          //   acccessor: 'RowNumber',
+          // }
         ]
       }
 
@@ -323,11 +323,11 @@ class Map extends React.Component {
 function App() {
   const qna = [
     {
-      "question": "My night's details are out of date! How do I update this?",
-      "answer": "Just let us know! email@example.com",
+      "question": "My night's details are out of date! ⌚",
+      "answer": "Just let us know! We'll make a asap: email@example.com",
     },
     {
-      "question": "I found a bug! I have other feedback to share",
+      "question": "I have feedback to share / found a bug! 🐛",
       "answer": "Good hunting 😄 Send us feedback here: ...",
     }
   ]
@@ -363,7 +363,7 @@ function App() {
 
       <div className="section">
         <div className="container">
-          <div className="columns">
+          <div className="columns is-vcentered">
 
             {qna.map((qa) => {
               return <div className="column">
