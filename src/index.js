@@ -230,6 +230,7 @@ const InfoWindow = (props) => {
     padding: 10,
     fontSize: 14,
     zIndex: 100,
+    borderRadius: '25px',
   };
 
   return (
@@ -264,6 +265,7 @@ class MapMarker extends React.Component {
 }
 
 class Map extends React.Component {
+  // TODO: turn this into a function 
   constructor(props) {
     super(props);
 
@@ -286,8 +288,8 @@ class Map extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.results != prevProps.results) {
-      this.setState(() => {
-        const newState = this.props.results.map(result => ({ ...result, show: false }));
+      this.setState((_, props) => {
+        const newState = props.results.map(result => ({ ...result, show: false }));
         return { results: newState };
       })
     }
@@ -319,9 +321,19 @@ class Map extends React.Component {
 }
 
 function App() {
+  const qna = [
+    {
+      "question": "My night's details are out of date! How do I update this?",
+      "answer": "Just let us know! email@example.com",
+    },
+    {
+      "question": "I found a bug! I have other feedback to share",
+      "answer": "Good hunting 😄 Send us feedback here: ...",
+    }
+  ]
   return (
     <div>
-      <nav className="navbar is-white has-shadow py-4 mb-2">
+      <nav className="navbar is-light has-shadow py-4 mb-2">
         <div className="navbar-brand">
           <a className="navbar-item">
             <img src={logo} style={{ maxHeight: "60px" }} />
@@ -352,28 +364,29 @@ function App() {
       <div className="section">
         <div className="container">
           <div className="columns">
-            <div className="column has-text-weight-bold	has-text-right">
-              My night's details are out of date! How do I update this?
-            </div>
-            <div className="column">
-              Just let us know: email addr.
-            </div>
-          </div>
 
-          <div className="columns">
-            <div className="column has-text-weight-semibold	has-text-right">
-              My night isn't listed! How can I add it?
-            </div>
-            <div className="column">
-              You guessed it - just let us know: email addr.
-            </div>
+            {qna.map((qa) => {
+              return <div className="column">
+                <div className="card">
+                  <div className="card-header">
+                    <div className="card-header-title">
+                      {qa.question}
+                    </div>
+                  </div>
+                  <div className="card-content">
+                    <div className="content">
+                      {qa.answer}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            })}
           </div>
-
+          <p className="has-text-centered my-2 mx-2">
+            Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+          </p>
         </div>
       </div>
-      <p className="has-text-centered my-2 mx-2">
-        Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
-      </p>
     </div>
   );
 }
