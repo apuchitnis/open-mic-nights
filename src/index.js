@@ -253,11 +253,10 @@ class MapMarker extends React.Component {
       borderRadius: '50%',
       height: 20,
       width: 20,
-      backgroundColor: this.props.show ? 'red' : 'blue',
       zIndex: 10,
     };
     return (
-      <div style={markerStyle}>
+      <div className={this.props.show? "has-background-warning":"has-background-primary-dark"} style={markerStyle}>
         {this.props.show && <InfoWindow name={this.props.name} />}
       </div>
     );
