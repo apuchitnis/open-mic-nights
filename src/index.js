@@ -68,6 +68,7 @@ function TableAndMap() {
   const rowsData = React.useMemo(
     () => {
       if (!data.isFetching && data.headerValues != null) {
+        console.log(data)
         return data.rows.map((item) => {
           return {
             RowNumber: item.rowNumber,
@@ -78,6 +79,7 @@ function TableAndMap() {
             Venue: item.Venue,
             Latitude: item.Latitude,
             Longitude: item.Longitude,
+            Weekday: item.Weekday
           }
         })
       }
@@ -93,6 +95,14 @@ function TableAndMap() {
         // return data.headerValues.map((item) => { return { Header: item, accessor: item }; })
         return [
           {
+            Header: 'Name',
+            accessor: 'Name',
+          },
+          {
+            Header: 'Venue',
+            accessor: 'Venue',
+          },
+          {
             Header: 'Bringer',
             accessor: 'Bringer',
             Filter: SelectColumnFilter,
@@ -104,14 +114,6 @@ function TableAndMap() {
           {
             Header: 'Frequency',
             accessor: 'Frequency',
-          },
-          {
-            Header: 'Name',
-            accessor: 'Name',
-          },
-          {
-            Header: 'Venue',
-            accessor: 'Venue',
           },
           // {
           //   Header: 'Latitude',
@@ -176,8 +178,8 @@ function TableAndMap() {
             results={rows}
           />
         </span>
-        <span className="column is-12-mobile is-7-desktop">
-          <table className=" table is-hoverable" {...getTableProps()}>
+        <span className="table_wrapper column is-12-mobile is-7-desktop">
+          <table className="table is-hoverable" {...getTableProps()}>
             <thead>
               {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
