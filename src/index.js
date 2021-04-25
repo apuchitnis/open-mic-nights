@@ -78,7 +78,8 @@ function TableAndMap() {
           return {
             RowNumber: row.rowNumber,
             Bringer: row.Bringer,
-            FacebookPage: row.FacebookPage,
+            FacebookPage: row["Facebook Page"],
+            FacebookGroup: row["Facebook Group"],
             Frequency: row.Frequency,
             Name: row.Name,
             Venue: row.Venue,
@@ -87,10 +88,14 @@ function TableAndMap() {
             Weekday: row["Weekday / Month"],
             Address: row.Address,
             Indoor: row["Indoor / Outdoor"],
+            BackOn: row["Back on"],
+            Category: row["Event Category"],
+            Level: row["Comedian Level"],
+            Description: row["Event Description"],
+            Website: row.Website,
           }
         })
       }
-
       return []
     },
     [data]
@@ -132,6 +137,12 @@ function TableAndMap() {
             disableFilters: true,
           },
           {
+            Header: 'BackOn',
+            accessor: 'BackOn',
+            Filter: SelectColumnFilter,
+            hideInitially: true,
+          },
+          {
             Header: 'Frequency',
             accessor: 'Frequency',
             Filter: SearchColumnFilter,
@@ -141,7 +152,37 @@ function TableAndMap() {
             accessor: 'Indoor',
             hideInitially: true,
             disableFilters: true,
-          }
+          },
+          {
+            Header: 'Category',
+            accessor: 'Category',
+            hideInitially: true,
+            Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'Level',
+            accessor: 'Level',
+            hideInitially: true,
+            Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'Website',
+            accessor: 'Website',
+            hideInitially: true,
+            disableFilters: true,
+          },
+          {
+            Header: 'Description',
+            accessor: 'Description',
+            hideInitially: true,
+            Filter: SearchColumnFilter,
+          },
+          {
+            Header: 'Facebook Group',
+            accessor: 'FacebookGroup',
+            hideInitially: true,
+            disableFilters: true,
+          },
         ]
       }
       return []
@@ -155,9 +196,7 @@ function TableAndMap() {
     headerGroups,
     rows,
     prepareRow,
-    allColumns,
-    getToggleHideAllColumnsProps,
-    state,
+    allColumns
   } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.Header) } }, useFilters)
 
   return (
