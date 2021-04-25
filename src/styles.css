@@ -15,6 +15,6 @@ table {
     in desktop mode, bulma makes the parent column elementof  the table 50% of the viewport size
     this setting makes the element try to expand out of it's box
     this fails, so a scroll bar is shown */
-    width: 100vw;
+    width: 100%;
     overflow: auto;
 }
