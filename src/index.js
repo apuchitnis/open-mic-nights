@@ -40,9 +40,20 @@ function SelectColumnFilter({
   )
 }
 
+function SearchColumnFilter({
+  column: { filterValue, setFilter },
+}) {
+  return (
+    <input className="input is-small" value={filterValue || ''} onChange={(e) => setFilter(e.target.value)} />
+  )
+}
+
+function NoOpColumnFilter() {
+  return null
+}
+
 
 function TableAndMap() {
-  console.log(logo)
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
 
   useEffect(() => {
@@ -59,7 +70,7 @@ function TableAndMap() {
 
         setData({ headerValues: sheet.headerValues, rows: rows, isFetching: false });
       } catch (e) {
-        console.log(e);
+        console.error(e);
         setData({ ...data, isFetching: false });
       }
     }());
@@ -68,18 +79,17 @@ function TableAndMap() {
   const rowsData = React.useMemo(
     () => {
       if (!data.isFetching && data.headerValues != null) {
-        console.log(data)
-        return data.rows.map((item) => {
+        return data.rows.map((row) => {
           return {
-            RowNumber: item.rowNumber,
-            Bringer: item.Bringer,
-            FacebookPage: item.FacebookPage,
-            Frequency: item.Frequency,
-            Name: item.Name,
-            Venue: item.Venue,
-            Latitude: item.Latitude,
-            Longitude: item.Longitude,
-            Weekday: item.Weekday
+            RowNumber: row.rowNumber,
+            Bringer: row.Bringer,
+            FacebookPage: row.FacebookPage,
+            Frequency: row.Frequency,
+            Name: row.Name,
+            Venue: row.Venue,
+            Latitude: row.Latitude,
+            Longitude: row.Longitude,
+            Weekday: row["Weekday / Month"]
           }
         })
       }
@@ -97,15 +107,22 @@ function TableAndMap() {
           {
             Header: 'Name',
             accessor: 'Name',
-          },
-          {
-            Header: 'Venue',
-            accessor: 'Venue',
+            Filter: SearchColumnFilter,
           },
           {
             Header: 'Bringer',
             accessor: 'Bringer',
             Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'Weekday',
+            accessor: 'Weekday',
+            Filter: SearchColumnFilter,
+          },
+          {
+            Header: 'Venue',
+            accessor: 'Venue',
+            Filter: SearchColumnFilter,
           },
           {
             Header: 'Facebook Page',
@@ -114,6 +131,7 @@ function TableAndMap() {
           {
             Header: 'Frequency',
             accessor: 'Frequency',
+            Filter: SearchColumnFilter,
           },
           // {
           //   Header: 'Latitude',
@@ -155,7 +173,7 @@ function TableAndMap() {
 
   const defaultColumn = React.useMemo(
     () => ({
-      Filter: SelectColumnFilter,
+      Filter: NoOpColumnFilter,
     }),
     []
   )
@@ -171,7 +189,7 @@ function TableAndMap() {
   } = useTable({ columns, data: rowsData, defaultColumn, filterTypes }, useFilters)
 
   return (
-    <div>
+    <>
       <div className="columns is-multiline">
         <span className="map column is-12-mobile is-5-desktop">
           <Map
@@ -215,7 +233,7 @@ function TableAndMap() {
           </table>
         </span>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -258,7 +276,7 @@ class MapMarker extends React.Component {
       zIndex: 10,
     };
     return (
-      <div className={this.props.show? "has-background-warning":"has-background-primary-dark"} style={markerStyle}>
+      <div className={this.props.show ? "has-background-warning" : "has-background-primary-dark"} style={markerStyle}>
         {this.props.show && <InfoWindow name={this.props.name} />}
       </div>
     );
@@ -333,7 +351,7 @@ function App() {
     }
   ]
   return (
-    <div>
+    <>
       <nav className="navbar is-light has-shadow py-4 mb-2">
         <div className="navbar-brand">
           <a className="navbar-item">
@@ -367,7 +385,7 @@ function App() {
           <div className="columns is-vcentered">
 
             {qna.map((qa) => {
-              return <div className="column">
+              return <div className="column" key={qa.question}>
                 <div className="card">
                   <div className="card-header">
                     <div className="card-header-title">
@@ -388,7 +406,7 @@ function App() {
           </p>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
