@@ -199,6 +199,10 @@ function TableAndMap() {
     allColumns
   } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.Header) } }, useFilters)
 
+
+  // line is zero-based
+  // line is the row number that you want to see into view after scroll  
+
   return (
     <>
       <div className="columns is-multiline">
@@ -212,14 +216,10 @@ function TableAndMap() {
           <div id="table-dropdown" className="dropdown">
             <div className="dropdown-trigger">
               <button className="button" onClick={() => document.getElementById("table-dropdown").classList.toggle("is-active")}>
-                <span>Select columns 🔽</span>
-                <span className="icon is-small">
-                  <i className="fas fa-angle-down" />
-                </span>
+                Select columns 🔽
               </button>
             </div>
             <div className="dropdown-menu" id="dropdown-menu" role="menu">
-
               {allColumns.map(column => (
                 <div key={column.id} className="dropdown-content">
                   <label className="checkbox">
@@ -335,6 +335,17 @@ class Map extends React.Component {
       }
       index = state.results.findIndex(e => e.original.RowNumber == parseInt(key));
       state.results[index].show = !state.results[index].show; // eslint-disable-line no-param-reassign
+
+      const cells = document.querySelectorAll('td')
+      var found = null;
+      for (var i = 0; i < cells.length; i++) {
+        if (cells[i].textContent == state.results[index].original.Name) {
+          found = cells[i];
+          break;
+        }
+      }
+
+      found.scrollIntoView({ behavior: 'smooth', block: 'start' })
       return { results: state.results };
     });
   }
