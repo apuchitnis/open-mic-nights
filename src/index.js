@@ -86,6 +86,7 @@ function TableAndMap() {
             Longitude: row.Longitude,
             Weekday: row["Weekday / Month"],
             Address: row.Address,
+            Indoor: row["Indoor / Outdoor"],
           }
         })
       }
@@ -95,12 +96,9 @@ function TableAndMap() {
     [data]
   )
 
-  const [viewAddress, setViewAddress] = useState(false)
-
   const columns = React.useMemo(
     () => {
       if (!data.isFetching && data.headerValues != null) {
-        // return data.headerValues.map((item) => { return { Header: item, accessor: item }; })
         return [
           {
             Header: 'Name',
@@ -126,6 +124,7 @@ function TableAndMap() {
             Header: 'Address',
             accessor: 'Address',
             disableFilters: true,
+            hideInitially: true,
           },
           {
             Header: 'Facebook Page',
@@ -137,12 +136,17 @@ function TableAndMap() {
             accessor: 'Frequency',
             Filter: SearchColumnFilter,
           },
+          {
+            Header: 'Indoor?',
+            accessor: 'Indoor',
+            hideInitially: true,
+            disableFilters: true,
+          }
         ]
       }
-
       return []
     },
-    [data, viewAddress]
+    [data]
   )
 
   const {
@@ -151,20 +155,10 @@ function TableAndMap() {
     headerGroups,
     rows,
     prepareRow,
-    setHiddenColumns,
+    allColumns,
+    getToggleHideAllColumnsProps,
     state,
-  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: ["Address"] } }, useFilters,)
-
-  useEffect(
-    () => {
-      if (viewAddress) {
-        setHiddenColumns([]);
-      } else {
-        setHiddenColumns(["Address"])
-      }
-    },
-    [viewAddress]
-  );
+  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.Header) } }, useFilters)
 
   return (
     <>
@@ -176,9 +170,15 @@ function TableAndMap() {
         </span>
         <span className="table_wrapper column is-12-mobile is-7-desktop">
           <div>
-            <label> Address
-              <input type="checkbox" checked={viewAddress} onChange={() => setViewAddress(!viewAddress)} />
-            </label>
+            {allColumns.map(column => (
+              <span key={column.id}>
+                <label>
+                  <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                  {column.id}
+                </label>
+              </span>
+            ))}
+            <br />
           </div>
           <table className="table is-hoverable" {...getTableProps()}>
             <thead>
