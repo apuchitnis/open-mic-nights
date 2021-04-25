@@ -24,7 +24,7 @@ function SelectColumnFilter({
 
   // Render a multi-select box
   return (
-    <select
+    <select className="select is-small"
       value={filterValue}
       onChange={e => {
         setFilter(e.target.value || undefined)
@@ -151,7 +151,7 @@ function TableAndMap() {
             Header: 'Indoor?',
             accessor: 'Indoor',
             hideInitially: true,
-            disableFilters: true,
+            Filter: SelectColumnFilter,
           },
           {
             Header: 'Category',
@@ -208,17 +208,29 @@ function TableAndMap() {
           />
         </span>
         <span className="table_wrapper column is-12-mobile is-7-desktop">
-          <div>
-            {allColumns.map(column => (
-              <span key={column.id}>
-                <label>
-                  <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                  {column.id}
-                </label>
-              </span>
-            ))}
-            <br />
+
+          <div id="table-dropdown" className="dropdown">
+            <div className="dropdown-trigger">
+              <button className="button" onClick={() => document.getElementById("table-dropdown").classList.toggle("is-active")}>
+                <span>Select columns 🔽</span>
+                <span className="icon is-small">
+                  <i className="fas fa-angle-down" />
+                </span>
+              </button>
+            </div>
+            <div className="dropdown-menu" id="dropdown-menu" role="menu">
+
+              {allColumns.map(column => (
+                <div key={column.id} className="dropdown-content">
+                  <label className="checkbox">
+                    <input type="checkbox" {...column.getToggleHiddenProps()} />
+                    {column.id}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
+
           <table className="table is-hoverable" {...getTableProps()}>
             <thead>
               {headerGroups.map(headerGroup => (
@@ -381,14 +393,13 @@ function App() {
           </a>
           <div className="navbar-item">
             <p className="title">
-              🎙Search Open Mic Nights in London
+              🎙Perform comedy near you
             </p>
           </div>
           <div className="navbar-burger" onClick={() => document.getElementById("nav-links").classList.toggle("is-active")}>
             <span></span>
             <span></span>
             <span></span>
-
           </div>
         </div>
         <div className="navbar-menu" id="nav-links">

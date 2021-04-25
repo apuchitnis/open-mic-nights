@@ -16,8 +16,5 @@ span table {
     this fails, so a scroll bar is shown */
     width: 100%;
     overflow: auto;    
-}
-
-table {
-    height: 80vh;
+    height: 81vh;
 }
