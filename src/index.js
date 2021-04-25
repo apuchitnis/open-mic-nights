@@ -344,8 +344,8 @@ class Map extends React.Component {
           break;
         }
       }
+      found.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 
-      found.scrollIntoView({ behavior: 'smooth', block: 'start' })
       return { results: state.results };
     });
   }
