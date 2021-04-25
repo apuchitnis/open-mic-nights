@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/open-mic-nights/static/css/main.45474242.chunk.css",
-    "main.js": "/open-mic-nights/static/js/main.b27fdb61.chunk.js",
-    "main.js.map": "/open-mic-nights/static/js/main.b27fdb61.chunk.js.map",
+    "main.css": "/open-mic-nights/static/css/main.f831c003.chunk.css",
+    "main.js": "/open-mic-nights/static/js/main.b996ac3e.chunk.js",
+    "main.js.map": "/open-mic-nights/static/js/main.b996ac3e.chunk.js.map",
     "runtime-main.js": "/open-mic-nights/static/js/runtime-main.5922ee83.js",
     "runtime-main.js.map": "/open-mic-nights/static/js/runtime-main.5922ee83.js.map",
-    "static/js/2.4954883d.chunk.js": "/open-mic-nights/static/js/2.4954883d.chunk.js",
-    "static/js/2.4954883d.chunk.js.map": "/open-mic-nights/static/js/2.4954883d.chunk.js.map",
+    "static/js/2.2ce77e73.chunk.js": "/open-mic-nights/static/js/2.2ce77e73.chunk.js",
+    "static/js/2.2ce77e73.chunk.js.map": "/open-mic-nights/static/js/2.2ce77e73.chunk.js.map",
     "index.html": "/open-mic-nights/index.html",
-    "static/css/main.45474242.chunk.css.map": "/open-mic-nights/static/css/main.45474242.chunk.css.map",
-    "static/js/2.4954883d.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.4954883d.chunk.js.LICENSE.txt",
+    "static/css/main.f831c003.chunk.css.map": "/open-mic-nights/static/css/main.f831c003.chunk.css.map",
+    "static/js/2.2ce77e73.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.2ce77e73.chunk.js.LICENSE.txt",
     "static/media/apple-touch-icon.c9916e86.png": "/open-mic-nights/static/media/apple-touch-icon.c9916e86.png"
   },
   "entrypoints": [
     "static/js/runtime-main.5922ee83.js",
-    "static/js/2.4954883d.chunk.js",
-    "static/css/main.45474242.chunk.css",
-    "static/js/main.b27fdb61.chunk.js"
+    "static/js/2.2ce77e73.chunk.js",
+    "static/css/main.f831c003.chunk.css",
+    "static/js/main.b996ac3e.chunk.js"
   ]
 }
