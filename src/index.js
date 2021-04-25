@@ -48,11 +48,6 @@ function SearchColumnFilter({
   )
 }
 
-function NoOpColumnFilter() {
-  return null
-}
-
-
 function TableAndMap() {
   const [data, setData] = useState({ headerValues: null, rows: [], isFetching: false });
 
@@ -127,24 +122,13 @@ function TableAndMap() {
           {
             Header: 'Facebook Page',
             accessor: 'FacebookPage',
+            disableFilters: true,
           },
           {
             Header: 'Frequency',
             accessor: 'Frequency',
             Filter: SearchColumnFilter,
           },
-          // {
-          //   Header: 'Latitude',
-          //   accessor: 'Latitude',
-          // },
-          // {
-          //   Header: 'Longitude',
-          //   accessor: 'Longitude',
-          // },
-          // {
-          //   Header: 'RowNumber',
-          //   acccessor: 'RowNumber',
-          // }
         ]
       }
 
@@ -153,32 +137,6 @@ function TableAndMap() {
     [data]
   )
 
-  const filterTypes = React.useMemo(
-    () => ({
-      // Or, override the default text filter to use
-      // "startWith"
-      text: (rows, id, filterValue) => {
-        return rows.filter(row => {
-          const rowValue = row.values[id]
-          return rowValue !== undefined
-            ? String(rowValue)
-              .toLowerCase()
-              .startsWith(String(filterValue).toLowerCase())
-            : true
-        })
-      },
-    }),
-    []
-  )
-
-  const defaultColumn = React.useMemo(
-    () => ({
-      Filter: NoOpColumnFilter,
-    }),
-    []
-  )
-
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -186,7 +144,7 @@ function TableAndMap() {
     rows,
     prepareRow,
     state,
-  } = useTable({ columns, data: rowsData, defaultColumn, filterTypes }, useFilters)
+  } = useTable({ columns, data: rowsData }, useFilters, )
 
   return (
     <>
