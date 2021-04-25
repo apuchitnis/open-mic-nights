@@ -84,7 +84,8 @@ function TableAndMap() {
             Venue: row.Venue,
             Latitude: row.Latitude,
             Longitude: row.Longitude,
-            Weekday: row["Weekday / Month"]
+            Weekday: row["Weekday / Month"],
+            Address: row.Address,
           }
         })
       }
@@ -93,6 +94,8 @@ function TableAndMap() {
     },
     [data]
   )
+
+  const [viewAddress, setViewAddress] = useState(false)
 
   const columns = React.useMemo(
     () => {
@@ -120,6 +123,11 @@ function TableAndMap() {
             Filter: SearchColumnFilter,
           },
           {
+            Header: 'Address',
+            accessor: 'Address',
+            disableFilters: true,
+          },
+          {
             Header: 'Facebook Page',
             accessor: 'FacebookPage',
             disableFilters: true,
@@ -134,7 +142,7 @@ function TableAndMap() {
 
       return []
     },
-    [data]
+    [data, viewAddress]
   )
 
   const {
@@ -143,8 +151,20 @@ function TableAndMap() {
     headerGroups,
     rows,
     prepareRow,
+    setHiddenColumns,
     state,
-  } = useTable({ columns, data: rowsData }, useFilters, )
+  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: ["Address"] } }, useFilters,)
+
+  useEffect(
+    () => {
+      if (viewAddress) {
+        setHiddenColumns([]);
+      } else {
+        setHiddenColumns(["Address"])
+      }
+    },
+    [viewAddress]
+  );
 
   return (
     <>
@@ -155,6 +175,11 @@ function TableAndMap() {
           />
         </span>
         <span className="table_wrapper column is-12-mobile is-7-desktop">
+          <div>
+            <label> Address
+              <input type="checkbox" checked={viewAddress} onChange={() => setViewAddress(!viewAddress)} />
+            </label>
+          </div>
           <table className="table is-hoverable" {...getTableProps()}>
             <thead>
               {headerGroups.map(headerGroup => (
