@@ -308,6 +308,7 @@ class MapMarker extends React.Component {
       height: 20,
       width: 20,
       zIndex: 10,
+      cursor: 'pointer',
     };
     return (
       <div className={this.props.show ? "has-background-warning" : "has-background-primary-dark"} style={markerStyle}>
