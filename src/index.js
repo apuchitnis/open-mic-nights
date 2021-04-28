@@ -389,12 +389,16 @@ function App() {
   const qna = [
     {
       "question": "My night's details are out of date! ⌚",
-      "answer": "Just let us know! We'll make a asap: email@example.com",
+      "answer": <p>Just <a href="https://tripetto.app/run/OVM6TIVBDN">let us know</a>! We'll fix it ASAP.</p>
     },
     {
       "question": "I have feedback to share / found a bug! 🐛",
-      "answer": "Good hunting 😄 Send us feedback here: ...",
-    }
+      "answer": <p>Good hunting 😄 Send us feedback <a href="https://tripetto.app/run/OVM6TIVBDN">here</a>.</p>,
+    },
+    {
+      "question": "How can I stay up to date with standup?",
+      "answer": <p>Join our <a href="https://www.facebook.com/groups/LondonStandUpComedyMap/">Facebook Group</a>! We'll be glad to have you 😊</p>,
+    },
   ]
   return (
     <>
