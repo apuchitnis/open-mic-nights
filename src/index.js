@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './styles.css';
 import { useFilters, useTable } from 'react-table'
-import logo from './apple-touch-icon.png';
+import appleTouchIcon from './apple-touch-icon.png';
+import googleSheetsIcon from './google-sheets.png';
+import facebookIcon from './facebook.png';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -56,7 +58,7 @@ function TableAndMap() {
       try {
         setData({ ...data, isFetching: true });
 
-        const doc = new GoogleSpreadsheet('1uwHo4bGisUiQgwAnkFbVUZG2fabZD-uwaNx4JHlWnSs');
+        const doc = new GoogleSpreadsheet('1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k');
         doc.useApiKey("AIzaSyDWzk5MJLYVpzppXB9xxJWjVJnoe97erbc");
         await doc.loadInfo();
 
@@ -106,6 +108,11 @@ function TableAndMap() {
       if (!data.isFetching && data.headerValues != null) {
         return [
           {
+            Header: 'Back On',
+            accessor: 'BackOn',
+            Filter: SelectColumnFilter,
+          },
+          {
             Header: 'Name',
             accessor: 'Name',
             Filter: SearchColumnFilter,
@@ -135,12 +142,7 @@ function TableAndMap() {
             Header: 'Facebook Page',
             accessor: 'FacebookPage',
             disableFilters: true,
-          },
-          {
-            Header: 'BackOn',
-            accessor: 'BackOn',
-            Filter: SelectColumnFilter,
-            hideInitially: true,
+            Cell: ({ row }) => { return <a href={row.original.FacebookPage}>{row.original.FacebookPage}</a> }
           },
           {
             Header: 'Frequency',
@@ -182,6 +184,7 @@ function TableAndMap() {
             accessor: 'FacebookGroup',
             hideInitially: true,
             disableFilters: true,
+            Cell: ({ row }) => { return <a href={row.original.FacebookPage}>{row.original.FacebookPage}</a> }
           },
         ]
       }
@@ -345,6 +348,8 @@ class Map extends React.Component {
           break;
         }
       }
+      found.parentNode.style.backgroundColor = "#fffcb3"
+      setTimeout(() => found.parentNode.style.backgroundColor = "white", 2000)
       found.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 
       return { results: state.results };
@@ -366,8 +371,8 @@ class Map extends React.Component {
       <div id="map">
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyB2xTrXYV7Y6bN1BVVPrt2ZUglBPTZ-2S4' }}
-          defaultCenter={{ lat: 51.5074, lng: -0.05 }}
-          defaultZoom={14}
+          defaultCenter={{ lat: 51.5074, lng: -0.1178 }}
+          defaultZoom={13}
           onChildClick={this._onChildClick}
         >
           {this.state.results.map((item) =>
@@ -405,7 +410,7 @@ function App() {
       <nav className="navbar is-light has-shadow py-4 mb-2">
         <div className="navbar-brand">
           <a className="navbar-item">
-            <img src={logo} style={{ maxHeight: "60px" }} />
+            <img src={appleTouchIcon} style={{ maxHeight: "60px" }} />
           </a>
           <div className="navbar-item">
             <p className="title">
@@ -420,9 +425,9 @@ function App() {
         </div>
         <div className="navbar-menu" id="nav-links">
           <div className="navbar-end">
-            <a className="navbar-item">Facebook</a>
-            <a className="navbar-item">Sheet</a>
-            <a className="navbar-item">🙏 Submit feedback 🙏</a>
+            <a className="navbar-item" href="https://www.facebook.com/groups/LondonStandUpComedyMap"><img src={facebookIcon} />Join our Facebook Group</a>
+            <a className="navbar-item" href="https://docs.google.com/spreadsheets/d/1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k"><img src={googleSheetsIcon} />Sheet </a>
+            <a className="navbar-item" href="https://tripetto.app/run/OVM6TIVBDN">🙏 Submit feedback 🙏</a>
           </div>
         </div>
       </nav>
@@ -451,7 +456,7 @@ function App() {
             })}
           </div>
           <p className="has-text-centered my-2 mx-2">
-            Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to GC for compiling all of the data.
+            Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to <a href="https://gaelleconstantcomedian.com/">Gaelle Constant</a> for maintaining the <a href="https://www.facebook.com/GaelleConstantComedian">original spreadsheet</a>.
           </p>
         </div>
       </div>
