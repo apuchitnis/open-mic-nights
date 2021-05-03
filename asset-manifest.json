@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/open-mic-nights/static/css/main.b93eb4d4.chunk.css",
-    "main.js": "/open-mic-nights/static/js/main.d4a60e6a.chunk.js",
-    "main.js.map": "/open-mic-nights/static/js/main.d4a60e6a.chunk.js.map",
+    "main.js": "/open-mic-nights/static/js/main.b47f6794.chunk.js",
+    "main.js.map": "/open-mic-nights/static/js/main.b47f6794.chunk.js.map",
     "runtime-main.js": "/open-mic-nights/static/js/runtime-main.5922ee83.js",
     "runtime-main.js.map": "/open-mic-nights/static/js/runtime-main.5922ee83.js.map",
     "static/js/2.3d81d8f5.chunk.js": "/open-mic-nights/static/js/2.3d81d8f5.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.5922ee83.js",
     "static/js/2.3d81d8f5.chunk.js",
     "static/css/main.b93eb4d4.chunk.css",
-    "static/js/main.d4a60e6a.chunk.js"
+    "static/js/main.b47f6794.chunk.js"
   ]
 }
