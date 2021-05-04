@@ -193,6 +193,12 @@ function TableAndMap() {
     [data]
   )
 
+  const initialFilterSettings = React.useMemo(
+    () => {
+      return [{ id: "BackOn", value: "Yes" }]
+    }
+  )
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -200,7 +206,7 @@ function TableAndMap() {
     rows,
     prepareRow,
     allColumns
-  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.Header) } }, useFilters)
+  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.Header), filters: initialFilterSettings } }, useFilters)
 
 
   // line is zero-based
@@ -397,12 +403,16 @@ function App() {
       "answer": <p>Just <a href="https://tripetto.app/run/OVM6TIVBDN">let us know</a>! We'll fix it ASAP.</p>
     },
     {
-      "question": "I have feedback to share / found a bug! 🐛",
-      "answer": <p>Good hunting 😄 Send us feedback <a href="https://tripetto.app/run/OVM6TIVBDN">here</a>.</p>,
+      "question": "I have feedback to share! 🤔",
+      "answer": <p>We're still in early development, so any feedback is useful for us - send it <a href="https://tripetto.app/run/OVM6TIVBDN">here</a>.</p>,
     },
     {
       "question": "How can I stay up to date with standup?",
       "answer": <p>Join our <a href="https://www.facebook.com/groups/LondonStandUpComedyMap/">Facebook Group</a>! We'll be glad to have you 😊</p>,
+    },
+    {
+      "question": "How can I view the raw data of app?",
+      "answer": <p>Head to the <a href="https://docs.google.com/spreadsheets/d/1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k">Google Sheet.</a></p>,
     },
   ]
   return (
@@ -426,7 +436,6 @@ function App() {
         <div className="navbar-menu" id="nav-links">
           <div className="navbar-end">
             <a className="navbar-item" href="https://www.facebook.com/groups/LondonStandUpComedyMap"><img src={facebookIcon} />Join our Facebook Group</a>
-            <a className="navbar-item" href="https://docs.google.com/spreadsheets/d/1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k"><img src={googleSheetsIcon} />Sheet </a>
             <a className="navbar-item" href="https://tripetto.app/run/OVM6TIVBDN">🙏 Submit feedback 🙏</a>
           </div>
         </div>
