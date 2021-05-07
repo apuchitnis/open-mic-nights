@@ -1,7 +1,7 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css";
 #map {
     /* Need to set map width and height explicitly */
-    height: 80vh;
+    height: 71vh;
 }
 
 span table {
@@ -16,5 +16,5 @@ span table {
     this fails, so a scroll bar is shown */
     width: 100%;
     overflow: auto;    
-    height: 81vh;
+    height: 71vh;
 }

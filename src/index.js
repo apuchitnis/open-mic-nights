@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './styles.css';
 import { useFilters, useTable } from 'react-table'
-import appleTouchIcon from './apple-touch-icon.png';
-import googleSheetsIcon from './google-sheets.png';
+import laughingEmoji from './laughing-emoji.png';
 import facebookIcon from './facebook.png';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
@@ -78,23 +77,30 @@ function TableAndMap() {
       if (!data.isFetching && data.headerValues != null) {
         return data.rows.map((row) => {
           return {
-            RowNumber: row.rowNumber,
-            Bringer: row.Bringer,
-            FacebookPage: row["Facebook Page"],
-            FacebookGroup: row["Facebook Group"],
-            Frequency: row.Frequency,
-            Name: row.Name,
-            Venue: row.Venue,
-            Latitude: row.Latitude,
-            Longitude: row.Longitude,
-            Weekday: row["Weekday / Month"],
-            Address: row.Address,
-            Indoor: row["Indoor / Outdoor"],
+            Address: row["Address"],
+            AudienceEntryFee: row["Audience Entry Fee"],
             BackOn: row["Back on"],
+            HowToBook: row["Contact / Book a Spot"],
+            Bringer: row["Bringer"],
             Category: row["Event Category"],
-            Level: row["Comedian Level"],
             Description: row["Event Description"],
-            Website: row.Website,
+            FacebookGroup: row["Facebook Group"],
+            FacebookPage: row["Facebook Page"],
+            Frequency: row["Frequency"],
+            Indoor: row["Indoor / Outdoor"],
+            Instagram: row["Instagram"],
+            Latitude: row["Latitude"],
+            Level: row["Comedian Level"],
+            Longitude: row["Longitude"],
+            Name: row["Name"],
+            PayToPlay: row["Pay to Play"],
+            RowNumber: row.rowNumber,
+            Time: row["Time"],
+            Venue: row["Venue"],
+            WalkIn: row["Walk-in"],
+            Weekday: row["Weekday / Month"],
+            Website: row["Website"],
+            WheelchairAccess: row["Wheelchair Access"],
           }
         })
       }
@@ -118,6 +124,49 @@ function TableAndMap() {
             Filter: SearchColumnFilter,
           },
           {
+            Header: 'Description',
+            accessor: 'Description',
+            hideInitially: true,
+            Filter: SearchColumnFilter,
+          },
+          {
+            Header: 'HowToBook',
+            accessor: 'HowToBook',
+            hideInitially: true,
+            Filter: SearchColumnFilter,
+          },
+          {
+            Header: 'Category',
+            accessor: 'Category',
+            hideInitially: true,
+            Filter: SearchColumnFilter,
+          },
+          {
+            Header: 'Walk In',
+            accessor: 'WalkIn',
+            hideInitially: true,
+            Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'Pay to Play',
+            accessor: 'PayToPlay',
+            hideInitially: true,
+            Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'Audience Entry Fee',
+            accessor: 'AudienceEntryFee',
+            hideInitially: true,
+            Filter: SelectColumnFilter,
+          },
+
+          {
+            Header: 'Level',
+            accessor: 'Level',
+            hideInitially: true,
+            Filter: SearchColumnFilter,
+          },
+          {
             Header: 'Bringer',
             accessor: 'Bringer',
             Filter: SelectColumnFilter,
@@ -128,21 +177,51 @@ function TableAndMap() {
             Filter: SearchColumnFilter,
           },
           {
+            Header: 'Time',
+            accessor: 'Time',
+            disableFilters: true,
+            hideInitially: true,
+          },
+          {
             Header: 'Venue',
             accessor: 'Venue',
             Filter: SearchColumnFilter,
           },
           {
+            Header: 'Website',
+            accessor: 'Website',
+            hideInitially: true,
+            disableFilters: true,
+          },
+          {
             Header: 'Address',
             accessor: 'Address',
-            disableFilters: true,
+            Filter: SearchColumnFilter,
+          },
+          {
+            Header: 'Wheelchair Access',
+            accessor: 'WheelchairAccess',
             hideInitially: true,
+            Filter: SelectColumnFilter,
           },
           {
             Header: 'Facebook Page',
             accessor: 'FacebookPage',
             disableFilters: true,
             Cell: ({ row }) => { return <a href={row.original.FacebookPage}>{row.original.FacebookPage}</a> }
+          },
+          {
+            Header: 'Facebook Group',
+            accessor: 'FacebookGroup',
+            hideInitially: true,
+            disableFilters: true,
+            Cell: ({ row }) => { return <a href={row.original.FacebookPage}>{row.original.FacebookPage}</a> }
+          },
+          {
+            Header: 'Instagram',
+            accessor: 'Instragram',
+            hideInitially: true,
+            disableFilters: true,
           },
           {
             Header: 'Frequency',
@@ -154,37 +233,6 @@ function TableAndMap() {
             accessor: 'Indoor',
             hideInitially: true,
             Filter: SelectColumnFilter,
-          },
-          {
-            Header: 'Category',
-            accessor: 'Category',
-            hideInitially: true,
-            Filter: SelectColumnFilter,
-          },
-          {
-            Header: 'Level',
-            accessor: 'Level',
-            hideInitially: true,
-            Filter: SelectColumnFilter,
-          },
-          {
-            Header: 'Website',
-            accessor: 'Website',
-            hideInitially: true,
-            disableFilters: true,
-          },
-          {
-            Header: 'Description',
-            accessor: 'Description',
-            hideInitially: true,
-            Filter: SearchColumnFilter,
-          },
-          {
-            Header: 'Facebook Group',
-            accessor: 'FacebookGroup',
-            hideInitially: true,
-            disableFilters: true,
-            Cell: ({ row }) => { return <a href={row.original.FacebookPage}>{row.original.FacebookPage}</a> }
           },
         ]
       }
@@ -206,7 +254,7 @@ function TableAndMap() {
     rows,
     prepareRow,
     allColumns
-  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.Header), filters: initialFilterSettings } }, useFilters)
+  } = useTable({ columns, data: rowsData, initialState: { hiddenColumns: columns.filter(c => c.hideInitially).map(c => c.accessor), filters: initialFilterSettings } }, useFilters)
 
 
   // line is zero-based
@@ -420,13 +468,8 @@ function App() {
       <nav className="navbar is-light has-shadow py-4 mb-2">
         <div className="navbar-brand">
           <a className="navbar-item">
-            <img src={appleTouchIcon} style={{ maxHeight: "60px" }} />
+            <img src={laughingEmoji} style={{ maxHeight: "60px" }} />
           </a>
-          <div className="navbar-item">
-            <p className="title">
-              🎙Perform comedy near you
-            </p>
-          </div>
           <div className="navbar-burger" onClick={() => document.getElementById("nav-links").classList.toggle("is-active")}>
             <span></span>
             <span></span>
@@ -434,6 +477,16 @@ function App() {
           </div>
         </div>
         <div className="navbar-menu" id="nav-links">
+          <div className="navbar-start">
+            <div className="navbar-item">
+              <p className="title">
+                London Standup Comedy Map
+            </p>
+              <p className="subtitle">
+                - Perform comedy near you
+            </p>
+            </div>
+          </div>
           <div className="navbar-end">
             <a className="navbar-item" href="https://www.facebook.com/groups/LondonStandUpComedyMap"><img src={facebookIcon} />Join our Facebook Group</a>
             <a className="navbar-item" href="https://tripetto.app/run/OVM6TIVBDN">🙏 Submit feedback 🙏</a>
@@ -465,7 +518,7 @@ function App() {
             })}
           </div>
           <p className="has-text-centered my-2 mx-2">
-            Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to <a href="https://gaelleconstantcomedian.com/">Gaelle Constant</a> for maintaining the <a href="https://www.facebook.com/GaelleConstantComedian">original spreadsheet</a>.
+            Website created with ❤ by <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to <a href="https://www.facebook.com/GaelleConstantComedian">Gaelle Constant</a> for maintaining the <a href="https://docs.google.com/spreadsheets/d/1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k">original spreadsheet</a>.
           </p>
         </div>
       </div>
