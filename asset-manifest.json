@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/open-mic-nights/static/css/main.91f437e1.chunk.css",
-    "main.js": "/open-mic-nights/static/js/main.0746cfa6.chunk.js",
-    "main.js.map": "/open-mic-nights/static/js/main.0746cfa6.chunk.js.map",
+    "main.js": "/open-mic-nights/static/js/main.cbfc677f.chunk.js",
+    "main.js.map": "/open-mic-nights/static/js/main.cbfc677f.chunk.js.map",
     "runtime-main.js": "/open-mic-nights/static/js/runtime-main.5922ee83.js",
     "runtime-main.js.map": "/open-mic-nights/static/js/runtime-main.5922ee83.js.map",
     "static/js/2.3d81d8f5.chunk.js": "/open-mic-nights/static/js/2.3d81d8f5.chunk.js",
@@ -10,12 +10,12 @@
     "index.html": "/open-mic-nights/index.html",
     "static/css/main.91f437e1.chunk.css.map": "/open-mic-nights/static/css/main.91f437e1.chunk.css.map",
     "static/js/2.3d81d8f5.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.3d81d8f5.chunk.js.LICENSE.txt",
-    "static/media/laughing-emoji.c9916e86.png": "/open-mic-nights/static/media/laughing-emoji.c9916e86.png"
+    "static/media/logo.5ded454c.png": "/open-mic-nights/static/media/logo.5ded454c.png"
   },
   "entrypoints": [
     "static/js/runtime-main.5922ee83.js",
     "static/js/2.3d81d8f5.chunk.js",
     "static/css/main.91f437e1.chunk.css",
-    "static/js/main.0746cfa6.chunk.js"
+    "static/js/main.cbfc677f.chunk.js"
   ]
 }
