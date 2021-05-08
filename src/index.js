@@ -129,12 +129,6 @@ function TableAndMap() {
             Filter: SearchColumnFilter,
           },
           {
-            Header: 'HowToBook',
-            accessor: 'HowToBook',
-            hideInitially: true,
-            Filter: SearchColumnFilter,
-          },
-          {
             Header: 'Category',
             accessor: 'Category',
             hideInitially: true,
@@ -200,6 +194,11 @@ function TableAndMap() {
             accessor: 'WheelchairAccess',
             hideInitially: true,
             Filter: SelectColumnFilter,
+          },
+          {
+            Header: 'How To Book',
+            accessor: 'HowToBook',
+            Filter: SearchColumnFilter,
           },
           {
             Header: 'Facebook Page',
