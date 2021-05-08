@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import './styles.css';
 import { useFilters, useTable } from 'react-table'
-import laughingEmoji from './laughing-emoji.png';
+import logo from './logo-transparent.png';
 import facebookIcon from './facebook.png';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
@@ -126,7 +126,6 @@ function TableAndMap() {
           {
             Header: 'Description',
             accessor: 'Description',
-            hideInitially: true,
             Filter: SearchColumnFilter,
           },
           {
@@ -159,11 +158,9 @@ function TableAndMap() {
             hideInitially: true,
             Filter: SelectColumnFilter,
           },
-
           {
             Header: 'Level',
             accessor: 'Level',
-            hideInitially: true,
             Filter: SearchColumnFilter,
           },
           {
@@ -219,7 +216,7 @@ function TableAndMap() {
           },
           {
             Header: 'Instagram',
-            accessor: 'Instragram',
+            accessor: 'Instagram',
             hideInitially: true,
             disableFilters: true,
           },
@@ -227,6 +224,7 @@ function TableAndMap() {
             Header: 'Frequency',
             accessor: 'Frequency',
             Filter: SearchColumnFilter,
+            hideInitially: true,
           },
           {
             Header: 'Indoor?',
@@ -468,7 +466,7 @@ function App() {
       <nav className="navbar is-light has-shadow py-4 mb-2">
         <div className="navbar-brand">
           <a className="navbar-item">
-            <img src={laughingEmoji} style={{ maxHeight: "60px" }} />
+            <img src={logo} style={{ maxHeight: "60px" }} />
           </a>
           <div className="navbar-burger" onClick={() => document.getElementById("nav-links").classList.toggle("is-active")}>
             <span></span>
