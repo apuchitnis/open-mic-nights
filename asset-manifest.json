@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/open-mic-nights/static/css/main.91f437e1.chunk.css",
-    "main.js": "/open-mic-nights/static/js/main.bbf8333e.chunk.js",
-    "main.js.map": "/open-mic-nights/static/js/main.bbf8333e.chunk.js.map",
+    "main.js": "/open-mic-nights/static/js/main.1c0112d5.chunk.js",
+    "main.js.map": "/open-mic-nights/static/js/main.1c0112d5.chunk.js.map",
     "runtime-main.js": "/open-mic-nights/static/js/runtime-main.5922ee83.js",
     "runtime-main.js.map": "/open-mic-nights/static/js/runtime-main.5922ee83.js.map",
-    "static/js/2.3d81d8f5.chunk.js": "/open-mic-nights/static/js/2.3d81d8f5.chunk.js",
-    "static/js/2.3d81d8f5.chunk.js.map": "/open-mic-nights/static/js/2.3d81d8f5.chunk.js.map",
+    "static/js/2.1d4bf289.chunk.js": "/open-mic-nights/static/js/2.1d4bf289.chunk.js",
+    "static/js/2.1d4bf289.chunk.js.map": "/open-mic-nights/static/js/2.1d4bf289.chunk.js.map",
     "index.html": "/open-mic-nights/index.html",
     "static/css/main.91f437e1.chunk.css.map": "/open-mic-nights/static/css/main.91f437e1.chunk.css.map",
-    "static/js/2.3d81d8f5.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.3d81d8f5.chunk.js.LICENSE.txt",
+    "static/js/2.1d4bf289.chunk.js.LICENSE.txt": "/open-mic-nights/static/js/2.1d4bf289.chunk.js.LICENSE.txt",
     "static/media/logo-transparent.5ded454c.png": "/open-mic-nights/static/media/logo-transparent.5ded454c.png"
   },
   "entrypoints": [
     "static/js/runtime-main.5922ee83.js",
-    "static/js/2.3d81d8f5.chunk.js",
+    "static/js/2.1d4bf289.chunk.js",
     "static/css/main.91f437e1.chunk.css",
-    "static/js/main.bbf8333e.chunk.js"
+    "static/js/main.1c0112d5.chunk.js"
   ]
 }
