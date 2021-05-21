@@ -5,6 +5,7 @@ import './styles.css';
 import { useFilters, useTable } from 'react-table'
 import logo from './logo-transparent.png';
 import facebookIcon from './facebook.png';
+import { BiEdit } from 'react-icons/bi'
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -96,6 +97,7 @@ function TableAndMap() {
             PayToPlay: row["Pay to Play"],
             RowNumber: row.rowNumber,
             Time: row["Time"],
+            UpdateInfoFormLink: row["Update Info Form Link"],
             Venue: row["Venue"],
             WalkIn: row["Walk-in"],
             Weekday: row["Weekday / Month"],
@@ -114,6 +116,11 @@ function TableAndMap() {
       if (!data.isFetching && data.headerValues != null) {
         return [
           {
+            Header: '📝',
+            accessor: 'UpdateInfoFormLink',
+            disableFilters: true,
+            Cell: ({ row }) => { return <a href={row.original.UpdateInfoFormLink}><BiEdit /></a> }
+          }, {
             Header: 'Back On',
             accessor: 'BackOn',
             Filter: SelectColumnFilter,
