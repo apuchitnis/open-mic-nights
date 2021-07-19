@@ -119,7 +119,7 @@ function TableAndMap() {
             Header: '📝',
             accessor: 'UpdateInfoFormLink',
             disableFilters: true,
-            Cell: ({ row }) => { return <a href={row.original.UpdateInfoFormLink}><BiEdit /></a> }
+            Cell: ({ row }) => { return <a href={row.original.UpdateInfoFormLink} target="_blank"><BiEdit /></a> }
           }, {
             Header: 'Back On',
             accessor: 'BackOn',
