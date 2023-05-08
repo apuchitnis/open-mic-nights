@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import GoogleMapReact from "google-map-react";
 import "./styles.css";
 import { useFilters, useTable } from "react-table";
-import logo from "./milano.png";
+import logo from "./milano-2.png";
 import facebookIcon from "./facebook.png";
 import { BiEdit } from "react-icons/bi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
-const ApiKey = "AIzaSyBf1UOdCb4_NT4h_g4Wzz4taWIok5cpeCQ"
+const ApiKey = "AIzaSyBf1UOdCb4_NT4h_g4Wzz4taWIok5cpeCQ";
 
 // This is a custom filter UI for selecting
 // a unique option from a list
@@ -565,7 +565,7 @@ function App() {
           <div className="navbar-start">
             <div className="navbar-item">
               <p className="title">Milan Standup Comedy Map</p>
-              <p className="subtitle">Perform comedy near you</p>
+              <p className="subtitle"> - Perform comedy near you</p>
             </div>
           </div>
           <div className="navbar-end">
