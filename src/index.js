@@ -8,11 +8,13 @@ import facebookIcon from "./facebook.png";
 import { BiEdit } from "react-icons/bi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
+const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
+const ApiKey = "AIzaSyBf1UOdCb4_NT4h_g4Wzz4taWIok5cpeCQ"
 
 // This is a custom filter UI for selecting
 // a unique option from a list
 function SelectColumnFilter({
-  column: { filterValue, setFilter, preFilteredRows, id }
+  column: { filterValue, setFilter, preFilteredRows, id },
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
@@ -57,7 +59,7 @@ function TableAndMap() {
   const [data, setData] = useState({
     headerValues: null,
     rows: [],
-    isFetching: false
+    isFetching: false,
   });
 
   useEffect(() => {
@@ -65,10 +67,8 @@ function TableAndMap() {
       try {
         setData({ ...data, isFetching: true });
 
-        const doc = new GoogleSpreadsheet(
-          "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8"
-        );
-        doc.useApiKey("AIzaSyBf1UOdCb4_NT4h_g4Wzz4taWIok5cpeCQ");
+        const doc = new GoogleSpreadsheet(SpreadsheetId);
+        doc.useApiKey(ApiKey);
         await doc.loadInfo();
 
         const sheet = doc.sheetsByIndex[0];
@@ -77,7 +77,7 @@ function TableAndMap() {
         setData({
           headerValues: sheet.headerValues,
           rows: rows,
-          isFetching: false
+          isFetching: false,
         });
       } catch (e) {
         console.error(e);
@@ -114,7 +114,7 @@ function TableAndMap() {
           WalkIn: row["Walk-in"],
           Weekday: row["Weekday / Month"],
           Website: row["Website"],
-          WheelchairAccess: row["Wheelchair Access"]
+          WheelchairAccess: row["Wheelchair Access"],
         };
       });
     }
@@ -134,94 +134,94 @@ function TableAndMap() {
                 <BiEdit />
               </a>
             );
-          }
+          },
         },
         {
           Header: "Back On",
           accessor: "BackOn",
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "Name",
           accessor: "Name",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Description",
           accessor: "Description",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Category",
           accessor: "Category",
           hideInitially: true,
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Walk In",
           accessor: "WalkIn",
           hideInitially: true,
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "Pay to Play",
           accessor: "PayToPlay",
           hideInitially: true,
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "Audience Entry Fee",
           accessor: "AudienceEntryFee",
           hideInitially: true,
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "Level",
           accessor: "Level",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Bringer",
           accessor: "Bringer",
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "Weekday",
           accessor: "Weekday",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Time",
           accessor: "Time",
           disableFilters: true,
-          hideInitially: true
+          hideInitially: true,
         },
         {
           Header: "Venue",
           accessor: "Venue",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Website",
           accessor: "Website",
           hideInitially: true,
-          disableFilters: true
+          disableFilters: true,
         },
         {
           Header: "Address",
           accessor: "Address",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Wheelchair Access",
           accessor: "WheelchairAccess",
           hideInitially: true,
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "How To Book",
           accessor: "HowToBook",
-          Filter: SearchColumnFilter
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Facebook Page",
@@ -233,7 +233,7 @@ function TableAndMap() {
                 {row.original.FacebookPage}
               </a>
             );
-          }
+          },
         },
         {
           Header: "Facebook Group",
@@ -246,26 +246,26 @@ function TableAndMap() {
                 {row.original.FacebookPage}
               </a>
             );
-          }
+          },
         },
         {
           Header: "Instagram",
           accessor: "Instagram",
           hideInitially: true,
-          disableFilters: true
+          disableFilters: true,
         },
         {
           Header: "Frequency",
           accessor: "Frequency",
           Filter: SearchColumnFilter,
-          hideInitially: true
+          hideInitially: true,
         },
         {
           Header: "Indoor?",
           accessor: "Indoor",
           hideInitially: true,
-          Filter: SelectColumnFilter
-        }
+          Filter: SelectColumnFilter,
+        },
       ];
     }
     return [];
@@ -281,7 +281,7 @@ function TableAndMap() {
     headerGroups,
     rows,
     prepareRow,
-    allColumns
+    allColumns,
   } = useTable(
     {
       columns,
@@ -290,8 +290,8 @@ function TableAndMap() {
         hiddenColumns: columns
           .filter((c) => c.hideInitially)
           .map((c) => c.accessor),
-        filters: initialFilterSettings
-      }
+        filters: initialFilterSettings,
+      },
     },
     useFilters
   );
@@ -380,7 +380,7 @@ const InfoWindow = (props) => {
     padding: 10,
     fontSize: 14,
     zIndex: 100,
-    borderRadius: "25px"
+    borderRadius: "25px",
   };
 
   return (
@@ -402,7 +402,7 @@ class MapMarker extends React.Component {
       height: 20,
       width: 20,
       zIndex: 10,
-      cursor: "pointer"
+      cursor: "pointer",
     };
     return (
       <div
@@ -425,7 +425,7 @@ class Map extends React.Component {
     super(props);
 
     this.state = {
-      results: []
+      results: [],
     };
   }
 
@@ -467,7 +467,7 @@ class Map extends React.Component {
       this.setState((_, props) => {
         const newState = props.results.map((result) => ({
           ...result,
-          show: false
+          show: false,
         }));
         return { results: newState };
       });
@@ -479,7 +479,7 @@ class Map extends React.Component {
       // Important! Always set the container height explicitly
       <div id="map">
         <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyBf1UOdCb4_NT4h_g4Wzz4taWIok5cpeCQ" }}
+          bootstrapURLKeys={{ key: ApiKey }}
           defaultCenter={{ lat: 45.463336, lng: 9.187174 }}
           defaultZoom={13}
           onChildClick={this._onChildClick}
@@ -508,7 +508,7 @@ function App() {
           Just <a href="https://tripetto.app/run/OVM6TIVBDN">let us know</a>!
           We'll fix it ASAP.
         </p>
-      )
+      ),
     },
     {
       question: "I have feedback to share! 🤔",
@@ -517,31 +517,31 @@ function App() {
           We're still in early development, so any feedback is useful for us -
           send it <a href="https://tripetto.app/run/OVM6TIVBDN">here</a>.
         </p>
-      )
+      ),
     },
     {
       question: "How can I stay up to date with standup?",
       answer: (
         <p>
           Join our{" "}
-          <a href="https://www.facebook.com/groups/LondonStandUpComedyMap/">
+          <a href="https://www.facebook.com/groups/standupcomedyitalia/">
             Facebook Group
           </a>
           ! We'll be glad to have you 😊
         </p>
-      )
+      ),
     },
     {
       question: "How can I view the raw data of app?",
       answer: (
         <p>
           Head to the{" "}
-          <a href="https://docs.google.com/spreadsheets/d/1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8">
+          <a href="https://docs.google.com/spreadsheets/d/{SpreadsheetId}">
             Google Sheet.
           </a>
         </p>
-      )
-    }
+      ),
+    },
   ];
   return (
     <>
@@ -571,7 +571,7 @@ function App() {
           <div className="navbar-end">
             <a
               className="navbar-item"
-              href="https://www.facebook.com/groups/LondonStandUpComedyMap"
+              href="https://www.facebook.com/groups/standupcomedyitalia/"
             >
               <img src={facebookIcon} />
               Join our Facebook Group
