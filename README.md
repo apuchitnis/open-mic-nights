@@ -1,3 +1,3 @@
-# [London Comedy Standup Map](https://apuchitnis.github.io/open-mic-nights/)
+# Milan comedy standup nights
 
-Find free and paid comedy nights to perform at in London 🎙
+Find free and paid comedy nights to perform at in Milano 🎙
