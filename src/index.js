@@ -183,6 +183,12 @@ function TableAndMap() {
         //   Filter: SelectColumnFilter,
         // },
         {
+          Header: "Frequency",
+          accessor: "Frequency",
+          Filter: SearchColumnFilter,
+          //hideInitially: true,
+        },
+        {
           Header: "Weekday",
           accessor: "Weekday",
           Filter: SearchColumnFilter,
@@ -190,8 +196,7 @@ function TableAndMap() {
         {
           Header: "Time",
           accessor: "Time",
-          disableFilters: true,
-          hideInitially: true,
+          Filter: SearchColumnFilter,
         },
         {
           Header: "Venue",
@@ -248,7 +253,7 @@ function TableAndMap() {
         {
           Header: "Instagram",
           accessor: "Instagram",
-          hideInitially: true,
+          hideInitially: false,
           disableFilters: true,
           Cell: ({ row }) => {
             return (
@@ -256,18 +261,12 @@ function TableAndMap() {
             );
           },
         },
-        {
-          Header: "Frequency",
-          accessor: "Frequency",
-          Filter: SearchColumnFilter,
-          hideInitially: true,
-        },
-        {
-          Header: "Indoor?",
-          accessor: "Indoor",
-          hideInitially: true,
-          Filter: SelectColumnFilter,
-        },
+        // {
+        //   Header: "Indoor?",
+        //   accessor: "Indoor",
+        //   hideInitially: true,
+        //   Filter: SelectColumnFilter,
+        // },
       ];
     }
     return [];
