@@ -126,18 +126,18 @@ function TableAndMap() {
   const columns = React.useMemo(() => {
     if (!data.isFetching && data.headerValues != null) {
       return [
-        {
-          Header: "📝",
-          accessor: "UpdateInfoFormLink",
-          disableFilters: true,
-          Cell: ({ row }) => {
-            return (
-              <a href={row.original.UpdateInfoFormLink} target="_blank">
-                <BiEdit />
-              </a>
-            );
-          },
-        },
+        // {
+        //   Header: "📝",
+        //   accessor: "UpdateInfoFormLink",
+        //   disableFilters: true,
+        //   Cell: ({ row }) => {
+        //     return (
+        //       <a href={row.original.UpdateInfoFormLink} target="_blank">
+        //         <BiEdit />
+        //       </a>
+        //     );
+        //   },
+        // },
         {
           Header: "Name",
           accessor: "Name",
@@ -154,18 +154,18 @@ function TableAndMap() {
           hideInitially: true,
           Filter: SearchColumnFilter,
         },
-        {
-          Header: "Walk In",
-          accessor: "WalkIn",
-          hideInitially: true,
-          Filter: SelectColumnFilter,
-        },
-        {
-          Header: "Pay to Play",
-          accessor: "PayToPlay",
-          hideInitially: true,
-          Filter: SelectColumnFilter,
-        },
+        // {
+        //   Header: "Walk In",
+        //   accessor: "WalkIn",
+        //   hideInitially: true,
+        //   Filter: SelectColumnFilter,
+        // },
+        // {
+        //   Header: "Pay to Play",
+        //   accessor: "PayToPlay",
+        //   hideInitially: true,
+        //   Filter: SelectColumnFilter,
+        // },
         {
           Header: "Audience Entry Fee",
           accessor: "AudienceEntryFee",
@@ -177,11 +177,11 @@ function TableAndMap() {
           accessor: "Level",
           Filter: SearchColumnFilter,
         },
-        {
-          Header: "Bringer",
-          accessor: "Bringer",
-          Filter: SelectColumnFilter,
-        },
+        // {
+        //   Header: "Bringer",
+        //   accessor: "Bringer",
+        //   Filter: SelectColumnFilter,
+        // },
         {
           Header: "Weekday",
           accessor: "Weekday",
@@ -239,8 +239,8 @@ function TableAndMap() {
           disableFilters: true,
           Cell: ({ row }) => {
             return (
-              <a href={row.original.FacebookPage}>
-                {row.original.FacebookPage}
+              <a href={row.original.FacebookGroup}>
+                {row.original.FacebookGroup}
               </a>
             );
           },
@@ -250,6 +250,11 @@ function TableAndMap() {
           accessor: "Instagram",
           hideInitially: true,
           disableFilters: true,
+          Cell: ({ row }) => {
+            return (
+              <a href={row.original.Instagram}>{row.original.Instagram}</a>
+            );
+          },
         },
         {
           Header: "Frequency",
