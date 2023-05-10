@@ -96,7 +96,7 @@ function TableAndMap() {
             Name: row["Name"],
             PayToPlay: row["Pay to Play"],
             RowNumber: row.rowNumber,
-            Time: row["Time"],
+            Time: row["Event Time"],
             UpdateInfoFormLink: row["Update Info Form Link"],
             Venue: row["Venue"],
             WalkIn: row["Walk-in"],
