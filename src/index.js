@@ -146,6 +146,7 @@ function TableAndMap() {
         {
           Header: "Description",
           accessor: "Description",
+          hideInitially: true,
           Filter: SearchColumnFilter,
         },
         {
