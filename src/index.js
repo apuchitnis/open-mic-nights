@@ -8,7 +8,10 @@ import facebookIcon from "./facebook.png";
 import { BiEdit } from "react-icons/bi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
+const FacebookGroup = "https://www.facebook.com/groups/standupcomedyitalia/";
 const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
+const SpreadsheetURL =
+  "https://docs.google.com/spreadsheets/d/" + SpreadsheetId;
 const ApiKey = "AIzaSyBf1UOdCb4_NT4h_g4Wzz4taWIok5cpeCQ";
 
 // This is a custom filter UI for selecting
@@ -92,7 +95,6 @@ function TableAndMap() {
         return {
           Address: row["Address"],
           AudienceEntryFee: row["Audience Entry Fee"],
-          BackOn: row["Back on"],
           HowToBook: row["Contact / Book a Spot"],
           Bringer: row["Bringer"],
           Category: row["Event Category"],
@@ -108,7 +110,7 @@ function TableAndMap() {
           Name: row["Name"],
           PayToPlay: row["Pay to Play"],
           RowNumber: row.rowNumber,
-          Time: row["Time"],
+          Time: row["Event Time"],
           UpdateInfoFormLink: row["Update Info Form Link"],
           Venue: row["Venue"],
           WalkIn: row["Walk-in"],
@@ -124,23 +126,18 @@ function TableAndMap() {
   const columns = React.useMemo(() => {
     if (!data.isFetching && data.headerValues != null) {
       return [
-        {
-          Header: "📝",
-          accessor: "UpdateInfoFormLink",
-          disableFilters: true,
-          Cell: ({ row }) => {
-            return (
-              <a href={row.original.UpdateInfoFormLink} target="_blank">
-                <BiEdit />
-              </a>
-            );
-          },
-        },
-        {
-          Header: "Back On",
-          accessor: "BackOn",
-          Filter: SelectColumnFilter,
-        },
+        // {
+        //   Header: "📝",
+        //   accessor: "UpdateInfoFormLink",
+        //   disableFilters: true,
+        //   Cell: ({ row }) => {
+        //     return (
+        //       <a href={row.original.UpdateInfoFormLink} target="_blank">
+        //         <BiEdit />
+        //       </a>
+        //     );
+        //   },
+        // },
         {
           Header: "Name",
           accessor: "Name",
@@ -157,18 +154,18 @@ function TableAndMap() {
           hideInitially: true,
           Filter: SearchColumnFilter,
         },
-        {
-          Header: "Walk In",
-          accessor: "WalkIn",
-          hideInitially: true,
-          Filter: SelectColumnFilter,
-        },
-        {
-          Header: "Pay to Play",
-          accessor: "PayToPlay",
-          hideInitially: true,
-          Filter: SelectColumnFilter,
-        },
+        // {
+        //   Header: "Walk In",
+        //   accessor: "WalkIn",
+        //   hideInitially: true,
+        //   Filter: SelectColumnFilter,
+        // },
+        // {
+        //   Header: "Pay to Play",
+        //   accessor: "PayToPlay",
+        //   hideInitially: true,
+        //   Filter: SelectColumnFilter,
+        // },
         {
           Header: "Audience Entry Fee",
           accessor: "AudienceEntryFee",
@@ -180,11 +177,11 @@ function TableAndMap() {
           accessor: "Level",
           Filter: SearchColumnFilter,
         },
-        {
-          Header: "Bringer",
-          accessor: "Bringer",
-          Filter: SelectColumnFilter,
-        },
+        // {
+        //   Header: "Bringer",
+        //   accessor: "Bringer",
+        //   Filter: SelectColumnFilter,
+        // },
         {
           Header: "Weekday",
           accessor: "Weekday",
@@ -242,8 +239,8 @@ function TableAndMap() {
           disableFilters: true,
           Cell: ({ row }) => {
             return (
-              <a href={row.original.FacebookPage}>
-                {row.original.FacebookPage}
+              <a href={row.original.FacebookGroup}>
+                {row.original.FacebookGroup}
               </a>
             );
           },
@@ -253,6 +250,11 @@ function TableAndMap() {
           accessor: "Instagram",
           hideInitially: true,
           disableFilters: true,
+          Cell: ({ row }) => {
+            return (
+              <a href={row.original.Instagram}>{row.original.Instagram}</a>
+            );
+          },
         },
         {
           Header: "Frequency",
@@ -523,11 +525,8 @@ function App() {
       question: "How can I stay up to date with standup?",
       answer: (
         <p>
-          Join our{" "}
-          <a href="https://www.facebook.com/groups/standupcomedyitalia/">
-            Facebook Group
-          </a>
-          ! We'll be glad to have you 😊
+          Join our <a href={FacebookGroup}>Facebook Group</a>! We'll be glad to
+          have you 😊
         </p>
       ),
     },
@@ -535,10 +534,7 @@ function App() {
       question: "How can I view the raw data of app?",
       answer: (
         <p>
-          Head to the{" "}
-          <a href="https://docs.google.com/spreadsheets/d/{SpreadsheetId}">
-            Google Sheet.
-          </a>
+          Head to the <a href={SpreadsheetURL}>Google Sheet.</a>
         </p>
       ),
     },
@@ -569,10 +565,7 @@ function App() {
             </div>
           </div>
           <div className="navbar-end">
-            <a
-              className="navbar-item"
-              href="https://www.facebook.com/groups/standupcomedyitalia/"
-            >
+            <a className="navbar-item" href={FacebookGroup}>
               <img src={facebookIcon} />
               Join our Facebook Group
             </a>
@@ -606,18 +599,18 @@ function App() {
               );
             })}
           </div>
-          <p className="has-text-centered my-2 mx-2">
+          {/* <p className="has-text-centered my-2 mx-2">
             Website created with ❤ by{" "}
             <a href="https://apuchitnis.github.io/">@apuchitnis</a>. Thanks to{" "}
             <a href="https://www.facebook.com/GaelleConstantComedian">
               Gaelle Constant
             </a>{" "}
             for maintaining the{" "}
-            <a href="https://docs.google.com/spreadsheets/d/1d-BFbtAcGfiXuq8gXOzNTfwwMQGRj28RhDs5Z2QEQ4k">
+            <a href={SpreadsheetURL}>
               original spreadsheet
             </a>
             .
-          </p>
+          </p> */}
         </div>
       </div>
     </>
