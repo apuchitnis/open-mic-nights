@@ -6,6 +6,7 @@ import { useFilters, useTable } from 'react-table'
 import logo from './logo-transparent.png';
 import facebookIcon from './facebook.png';
 import { BiEdit } from 'react-icons/bi'
+import WeekdayColumnFilter from './components/WeekdayColumnFilter';
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -172,7 +173,7 @@ function TableAndMap() {
           {
             Header: 'Weekday',
             accessor: 'Weekday',
-            Filter: SearchColumnFilter,
+            Filter: WeekdayColumnFilter,
           },
           {
             Header: 'Time',
