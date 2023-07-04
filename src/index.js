@@ -507,7 +507,7 @@ function App() {
       question: "My night's details are out of date! ⌚",
       answer: (
         <p>
-          Just <a href="https://tripetto.app/run/OVM6TIVBDN">let us know</a>!
+          Just <a href="https://tripetto.app/run/ZNRADVJBA8">let us know</a>!
           We'll fix it ASAP.
         </p>
       ),
@@ -517,7 +517,7 @@ function App() {
       answer: (
         <p>
           We're still in early development, so any feedback is useful for us -
-          send it <a href="https://tripetto.app/run/OVM6TIVBDN">here</a>.
+          send it <a href="https://tripetto.app/run/ZNRADVJBA8">here</a>.
         </p>
       ),
     },
@@ -571,7 +571,7 @@ function App() {
             </a>
             <a
               className="navbar-item"
-              href="https://tripetto.app/run/OVM6TIVBDN"
+              href="https://tripetto.app/run/ZNRADVJBA8"
             >
               🙏 Submit feedback 🙏
             </a>

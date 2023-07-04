@@ -8,7 +8,7 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://apuchitnis.github.io/open-mic-nights",
+  "homepage": "https://www.openmicmilano.com/",
   "devDependencies": {
     "eslint-plugin-react-hooks": "^4.2.0",
     "gh-pages": "^2.2.0"
