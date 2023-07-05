@@ -96,7 +96,7 @@ function TableAndMap() {
           Address: row["Address"],
           AudienceEntryFee: row["Audience Entry Fee"],
           HowToBook: row["Contact / Book a Spot"],
-          Bringer: row["Bringer"],
+          Language: row["Language"],
           Category: row["Event Category"],
           Description: row["Event Description"],
           FacebookGroup: row["Facebook Group"],
@@ -126,18 +126,18 @@ function TableAndMap() {
   const columns = React.useMemo(() => {
     if (!data.isFetching && data.headerValues != null) {
       return [
-        // {
-        //   Header: "📝",
-        //   accessor: "UpdateInfoFormLink",
-        //   disableFilters: true,
-        //   Cell: ({ row }) => {
-        //     return (
-        //       <a href={row.original.UpdateInfoFormLink} target="_blank">
-        //         <BiEdit />
-        //       </a>
-        //     );
-        //   },
-        // },
+        {
+          Header: "📝",
+          accessor: "UpdateInfoFormLink",
+          disableFilters: true,
+          Cell: ({ row }) => {
+            return (
+              <a href={row.original.UpdateInfoFormLink} target="_blank">
+                <BiEdit />
+              </a>
+            );
+          },
+        },
         {
           Header: "Name",
           accessor: "Name",
@@ -178,11 +178,11 @@ function TableAndMap() {
           accessor: "Level",
           Filter: SearchColumnFilter,
         },
-        // {
-        //   Header: "Bringer",
-        //   accessor: "Bringer",
-        //   Filter: SelectColumnFilter,
-        // },
+        {
+          Header: "Language",
+         accessor: "Language",
+         Filter: SelectColumnFilter,
+       },
         {
           Header: "Frequency",
           accessor: "Frequency",
