@@ -5,10 +5,13 @@ import "./styles.css";
 import { useFilters, useTable } from "react-table";
 import logo from "./milano-2.png";
 import facebookIcon from "./facebook.png";
+import microphoneIcon from "./Microphone.png"
 import { BiEdit } from "react-icons/bi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const FacebookGroup = "https://www.facebook.com/groups/standupcomedyitalia/";
+const GitHubURL ="https://github.com/morettimarco/open-mic-nights"
+const GoogleForm ="https://forms.gle/vDuLfQ7Bc9iKxT2o8"
 const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
 const SpreadsheetURL =
   "https://docs.google.com/spreadsheets/d/" + SpreadsheetId;
@@ -502,31 +505,30 @@ class Map extends React.Component {
 }
 
 function App() {
-  const qna = [
+   const qna = [
+  //   {
+  //     question: "My night's details are out of date! ⌚",
+  //     answer: (
+  //       <p>
+  //         Just <a href="https://tripetto.app/run/ZNRADVJBA8">let us know</a>!
+  //         We'll fix it ASAP.
+  //       </p>
+  //     ),
+  //   },
+    // {
+    //   question: "I have feedback to share! 🤔",
+    //   answer: (
+    //     <p>
+    //       We're still in early development, so any feedback is useful for us -
+    //       send it <a href="https://tripetto.app/run/ZNRADVJBA8">here</a>.
+    //     </p>
+    //   ),
+    // },
     {
-      question: "My night's details are out of date! ⌚",
+      question: "Found a bug? Wanna contribute? Rip the site and f**k us?",
       answer: (
         <p>
-          Just <a href="https://tripetto.app/run/ZNRADVJBA8">let us know</a>!
-          We'll fix it ASAP.
-        </p>
-      ),
-    },
-    {
-      question: "I have feedback to share! 🤔",
-      answer: (
-        <p>
-          We're still in early development, so any feedback is useful for us -
-          send it <a href="https://tripetto.app/run/ZNRADVJBA8">here</a>.
-        </p>
-      ),
-    },
-    {
-      question: "How can I stay up to date with standup?",
-      answer: (
-        <p>
-          Join our <a href={FacebookGroup}>Facebook Group</a>! We'll be glad to
-          have you 😊
+          Here's our <a href={GitHubURL}>Git repo</a>! Take a look at my terrible code!
         </p>
       ),
     },
@@ -565,15 +567,14 @@ function App() {
             </div>
           </div>
           <div className="navbar-end">
-            <a className="navbar-item" href={FacebookGroup}>
-              <img src={facebookIcon} />
-              Join our Facebook Group
+            <a className="navbar-item" href={GoogleForm}>
+            🎤 Submit an open mic night
             </a>
             <a
               className="navbar-item"
-              href="https://tripetto.app/run/ZNRADVJBA8"
+              href="https://www.instagram.com/_anarchytect/"
             >
-              🙏 Submit feedback 🙏
+              📣 Contact me for feedbacks!
             </a>
           </div>
         </div>
