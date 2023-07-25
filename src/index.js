@@ -5,13 +5,13 @@ import "./styles.css";
 import { useFilters, useTable } from "react-table";
 import logo from "./milano-2.png";
 import facebookIcon from "./facebook.png";
-import microphoneIcon from "./Microphone.png"
+import microphoneIcon from "./Microphone.png";
 import { BiEdit } from "react-icons/bi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const FacebookGroup = "https://www.facebook.com/groups/standupcomedyitalia/";
-const GitHubURL ="https://github.com/morettimarco/open-mic-nights"
-const GoogleForm ="https://forms.gle/vDuLfQ7Bc9iKxT2o8"
+const GitHubURL = "https://github.com/morettimarco/open-mic-nights";
+const GoogleForm = "https://forms.gle/vDuLfQ7Bc9iKxT2o8";
 const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
 const SpreadsheetURL =
   "https://docs.google.com/spreadsheets/d/" + SpreadsheetId;
@@ -101,6 +101,9 @@ function TableAndMap() {
           HowToBook: row["Contact / Book a Spot"],
           Language: row["Language"],
           Category: row["Event Category"],
+          SubCategory: row["Event Sub-Category"],
+          Status: row["Status"],
+          OrganizerName: row["Organizer Name"],
           Description: row["Event Description"],
           FacebookGroup: row["Facebook Group"],
           FacebookPage: row["Facebook Page"],
@@ -158,6 +161,22 @@ function TableAndMap() {
           hideInitially: true,
           Filter: SearchColumnFilter,
         },
+        {
+          Header: "Sub Category",
+          accessor: "SubCategory",
+          hideInitially: true,
+          Filter: SearchColumnFilter,
+        },
+        {
+          Header: "Status",
+          accessor: "Status",
+          Filter: SelectColumnFilter,
+        },
+        {
+          Header: "Organizer Name",
+          accessor: "OrganizerName",
+          Filter: SelectColumnFilter,
+        },
         // {
         //   Header: "Walk In",
         //   accessor: "WalkIn",
@@ -183,9 +202,9 @@ function TableAndMap() {
         },
         {
           Header: "Language",
-         accessor: "Language",
-         Filter: SelectColumnFilter,
-       },
+          accessor: "Language",
+          Filter: SelectColumnFilter,
+        },
         {
           Header: "Frequency",
           accessor: "Frequency",
@@ -505,16 +524,16 @@ class Map extends React.Component {
 }
 
 function App() {
-   const qna = [
-  //   {
-  //     question: "My night's details are out of date! ⌚",
-  //     answer: (
-  //       <p>
-  //         Just <a href="https://tripetto.app/run/ZNRADVJBA8">let us know</a>!
-  //         We'll fix it ASAP.
-  //       </p>
-  //     ),
-  //   },
+  const qna = [
+    //   {
+    //     question: "My night's details are out of date! ⌚",
+    //     answer: (
+    //       <p>
+    //         Just <a href="https://tripetto.app/run/ZNRADVJBA8">let us know</a>!
+    //         We'll fix it ASAP.
+    //       </p>
+    //     ),
+    //   },
     // {
     //   question: "I have feedback to share! 🤔",
     //   answer: (
@@ -528,7 +547,8 @@ function App() {
       question: "Found a bug? Wanna contribute? Rip the site and f**k us?",
       answer: (
         <p>
-          Here's our <a href={GitHubURL}>Git repo</a>! Take a look at my terrible code!
+          Here's our <a href={GitHubURL}>Git repo</a>! Take a look at my
+          terrible code!
         </p>
       ),
     },
@@ -568,7 +588,7 @@ function App() {
           </div>
           <div className="navbar-end">
             <a className="navbar-item" href={GoogleForm}>
-            🎤 Submit an open mic night
+              🎤 Submit an open mic night
             </a>
             <a
               className="navbar-item"
