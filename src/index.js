@@ -4,9 +4,9 @@ import GoogleMapReact from "google-map-react";
 import "./styles.css";
 import { useFilters, useTable } from "react-table";
 import logo from "./milano-2.png";
-import facebookIcon from "./facebook.png";
-import microphoneIcon from "./Microphone.png";
-import { BiEdit } from "react-icons/bi";
+import { BsPencilSquare } from "react-icons/bs";
+import { BsInstagram } from "react-icons/bs";
+import { BsFacebook } from "react-icons/bs";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const FacebookGroup = "https://www.facebook.com/groups/standupcomedyitalia/";
@@ -133,13 +133,37 @@ function TableAndMap() {
     if (!data.isFetching && data.headerValues != null) {
       return [
         {
-          Header: "📝",
+          Header: "",
           accessor: "UpdateInfoFormLink",
           disableFilters: true,
           Cell: ({ row }) => {
             return (
               <a href={row.original.UpdateInfoFormLink} target="_blank">
-                <BiEdit />
+                <BsPencilSquare />
+              </a>
+            );
+          },
+        },
+        {
+          Header: "",
+          accessor: "Instagram",
+          disableFilters: true,
+          Cell: ({ row }) => {
+            return (
+              <a href={row.original.Instagram}>
+              <BsInstagram />
+              </a>
+            );
+          },
+        },
+        {
+          Header: "",
+          accessor: "FacebookPage",
+          disableFilters: true,
+          Cell: ({ row }) => {
+            return (
+              <a href={row.original.FacebookPage}>
+                <BsFacebook />
               </a>
             );
           },
@@ -175,7 +199,8 @@ function TableAndMap() {
         {
           Header: "Organizer Name",
           accessor: "OrganizerName",
-          Filter: SelectColumnFilter,
+          hideInitially: true,
+          Filter: SearchColumnFilter,
         },
         // {
         //   Header: "Walk In",
@@ -249,18 +274,6 @@ function TableAndMap() {
           Filter: SearchColumnFilter,
         },
         {
-          Header: "Facebook Page",
-          accessor: "FacebookPage",
-          disableFilters: true,
-          Cell: ({ row }) => {
-            return (
-              <a href={row.original.FacebookPage}>
-                {row.original.FacebookPage}
-              </a>
-            );
-          },
-        },
-        {
           Header: "Facebook Group",
           accessor: "FacebookGroup",
           hideInitially: true,
@@ -272,18 +285,7 @@ function TableAndMap() {
               </a>
             );
           },
-        },
-        {
-          Header: "Instagram",
-          accessor: "Instagram",
-          hideInitially: false,
-          disableFilters: true,
-          Cell: ({ row }) => {
-            return (
-              <a href={row.original.Instagram}>{row.original.Instagram}</a>
-            );
-          },
-        },
+        }
         // {
         //   Header: "Indoor?",
         //   accessor: "Indoor",
@@ -547,8 +549,7 @@ function App() {
       question: "Found a bug? Wanna contribute? Rip the site and f**k us?",
       answer: (
         <p>
-          Here's our <a href={GitHubURL}>Git repo</a>! Take a look at my
-          terrible code!
+          Here's our <a href={GitHubURL}>Git repo</a>! Take a look at my code!
         </p>
       ),
     },
@@ -557,6 +558,14 @@ function App() {
       answer: (
         <p>
           Head to the <a href={SpreadsheetURL}>Google Sheet.</a>
+        </p>
+      ),
+    },
+    {
+      question: "Credits",
+      answer: (
+        <p>
+          Many thanks to the original project <a href="https://apuchitnis.github.io/open-mic-nights/">London Standup Comedy Map</a>  and to the awsome <a href="https://apuchitnis.github.io/"> Apu Chitnis</a> for sharing it.
         </p>
       ),
     },
