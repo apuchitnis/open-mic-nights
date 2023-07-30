@@ -171,6 +171,7 @@ function TableAndMap() {
         {
           Header: "Name",
           accessor: "Name",
+          disableFilters: true,
           Filter: SearchColumnFilter,
         },
         {
@@ -195,6 +196,7 @@ function TableAndMap() {
           Header: "Status",
           accessor: "Status",
           Filter: SelectColumnFilter,
+          filter: 'equals'
         },
         {
           Header: "Organizer Name",
@@ -223,7 +225,8 @@ function TableAndMap() {
         {
           Header: "Level",
           accessor: "Level",
-          Filter: SearchColumnFilter,
+          Filter: SelectColumnFilter,
+          filter: 'equals'
         },
         {
           Header: "Language",
@@ -233,13 +236,13 @@ function TableAndMap() {
         {
           Header: "Frequency",
           accessor: "Frequency",
-          Filter: SearchColumnFilter,
+          Filter: SelectColumnFilter,
           //hideInitially: true,
         },
         {
           Header: "Weekday",
           accessor: "Weekday",
-          Filter: SearchColumnFilter,
+          Filter: SelectColumnFilter
         },
         {
           Header: "Time",
@@ -250,6 +253,7 @@ function TableAndMap() {
           Header: "Venue",
           accessor: "Venue",
           Filter: SearchColumnFilter,
+          disableFilters: true,
         },
         {
           Header: "Website",
@@ -261,6 +265,7 @@ function TableAndMap() {
           Header: "Address",
           accessor: "Address",
           Filter: SearchColumnFilter,
+          disableFilters: true
         },
         {
           Header: "Wheelchair Access",
@@ -272,6 +277,7 @@ function TableAndMap() {
           Header: "How To Book",
           accessor: "HowToBook",
           Filter: SearchColumnFilter,
+          disableFilters: true,
         },
         {
           Header: "Facebook Group",

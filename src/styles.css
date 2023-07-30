@@ -18,3 +18,7 @@ span table {
     overflow: auto;    
     height: 71vh;
 }
+
+a[href=''] {
+    display: none;
+  }
