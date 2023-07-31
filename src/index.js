@@ -7,9 +7,11 @@ import logo from "./milano-2.png";
 import { BsPencilSquare } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 import { BsFacebook } from "react-icons/bs";
+import { BsWhatsapp } from "react-icons/bs";
+import { PiMicrophoneStageFill } from "react-icons/pi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
-const FacebookGroup = "https://www.facebook.com/groups/standupcomedyitalia/";
+//const FacebookGroup = "https://www.facebook.com/groups/standupcomedyitalia/";
 const GitHubURL = "https://github.com/morettimarco/open-mic-nights";
 const GoogleForm = "https://forms.gle/vDuLfQ7Bc9iKxT2o8";
 const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
@@ -107,6 +109,7 @@ function TableAndMap() {
           Description: row["Event Description"],
           FacebookGroup: row["Facebook Group"],
           FacebookPage: row["Facebook Page"],
+          WhatsApp: row["WhatsApp"],
           Frequency: row["Frequency"],
           Indoor: row["Indoor / Outdoor"],
           Instagram: row["Instagram"],
@@ -150,21 +153,17 @@ function TableAndMap() {
           disableFilters: true,
           Cell: ({ row }) => {
             return (
+              <div>
               <a href={row.original.Instagram}>
               <BsInstagram />
               </a>
-            );
-          },
-        },
-        {
-          Header: "",
-          accessor: "FacebookPage",
-          disableFilters: true,
-          Cell: ({ row }) => {
-            return (
               <a href={row.original.FacebookPage}>
                 <BsFacebook />
               </a>
+              <a href={row.original.WhatsApp}>
+                <BsWhatsapp />
+              </a>
+              </div>
             );
           },
         },
@@ -428,11 +427,12 @@ class MapMarker extends React.Component {
   }
 
   render() {
+    let colors=["#F0F8FF","#FFE4C4","#8A2BE2"];
     const markerStyle = {
       border: "1px solid white",
       borderRadius: "50%",
-      height: 20,
-      width: 20,
+      height: 0,
+      width: 0,
       zIndex: 10,
       cursor: "pointer",
     };
@@ -445,6 +445,7 @@ class MapMarker extends React.Component {
         }
         style={markerStyle}
       >
+        <PiMicrophoneStageFill color="#3273dc" fontSize="1.8em" />
         {this.props.show && <InfoWindow name={this.props.name} />}
       </div>
     );
