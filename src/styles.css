@@ -19,6 +19,12 @@ span table {
     height: 71vh;
 }
 
+.navbar-item-centered {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    color: rgba(0,0,0,.7); /* Make the text black */
+  }
+
 a[href=''] {
     display: none;
   }

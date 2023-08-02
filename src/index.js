@@ -8,6 +8,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 import { BsFacebook } from "react-icons/bs";
 import { BsWhatsapp } from "react-icons/bs";
+import { BsCaretDownSquareFill } from "react-icons/bs";
 import { PiMicrophoneStageFill } from "react-icons/pi";
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
@@ -154,15 +155,15 @@ function TableAndMap() {
           Cell: ({ row }) => {
             return (
               <div>
-              <a href={row.original.Instagram}>
-              <BsInstagram />
-              </a>
-              <a href={row.original.FacebookPage}>
-                <BsFacebook />
-              </a>
-              <a href={row.original.WhatsApp}>
-                <BsWhatsapp />
-              </a>
+                <a href={row.original.Instagram}>
+                  <BsInstagram />
+                </a>
+                <a href={row.original.FacebookPage}>
+                  <BsFacebook />
+                </a>
+                <a href={row.original.WhatsApp}>
+                  <BsWhatsapp />
+                </a>
               </div>
             );
           },
@@ -195,7 +196,7 @@ function TableAndMap() {
           Header: "Status",
           accessor: "Status",
           Filter: SelectColumnFilter,
-          filter: 'equals'
+          filter: "equals",
         },
         {
           Header: "Organizer Name",
@@ -225,7 +226,7 @@ function TableAndMap() {
           Header: "Level",
           accessor: "Level",
           Filter: SelectColumnFilter,
-          filter: 'equals'
+          filter: "equals",
         },
         {
           Header: "Language",
@@ -241,7 +242,7 @@ function TableAndMap() {
         {
           Header: "Weekday",
           accessor: "Weekday",
-          Filter: SelectColumnFilter
+          Filter: SelectColumnFilter,
         },
         {
           Header: "Time",
@@ -264,7 +265,7 @@ function TableAndMap() {
           Header: "Address",
           accessor: "Address",
           Filter: SearchColumnFilter,
-          disableFilters: true
+          disableFilters: true,
         },
         {
           Header: "Wheelchair Access",
@@ -290,7 +291,7 @@ function TableAndMap() {
               </a>
             );
           },
-        }
+        },
         // {
         //   Header: "Indoor?",
         //   accessor: "Indoor",
@@ -427,7 +428,6 @@ class MapMarker extends React.Component {
   }
 
   render() {
-    let colors=["#F0F8FF","#FFE4C4","#8A2BE2"];
     const markerStyle = {
       border: "1px solid white",
       borderRadius: "50%",
@@ -440,12 +440,12 @@ class MapMarker extends React.Component {
       <div
         className={
           this.props.show
-            ? "has-background-warning"
-            : "has-background-primary-dark"
+            ? "has-background-danger"
+            : "has-background-warning"
         }
         style={markerStyle}
       >
-        <PiMicrophoneStageFill color="#3273dc" fontSize="1.8em" />
+        <PiMicrophoneStageFill color="#3273dc" fontSize="20px" />
         {this.props.show && <InfoWindow name={this.props.name} />}
       </div>
     );
@@ -572,7 +572,13 @@ function App() {
       question: "Credits",
       answer: (
         <p>
-          Many thanks to the original project <a href="https://apuchitnis.github.io/open-mic-nights/">London Standup Comedy Map</a>  and to the awsome <a href="https://apuchitnis.github.io/"> Apu Chitnis</a> for sharing it.
+          Many thanks to the original project{" "}
+          <a href="https://apuchitnis.github.io/open-mic-nights/">
+            London Standup Comedy Map
+          </a>{" "}
+          and to the awsome{" "}
+          <a href="https://apuchitnis.github.io/"> Apu Chitnis</a> for sharing
+          it.
         </p>
       ),
     },
@@ -584,30 +590,35 @@ function App() {
           <a className="navbar-item">
             <img src={logo} style={{ maxHeight: "150px" }} />
           </a>
-          <div
-            className="navbar-burger"
-            onClick={() =>
-              document.getElementById("nav-links").classList.toggle("is-active")
-            }
-          >
-            <span></span>
-            <span></span>
-            <span></span>
+          <div className="navbar-start">
+            <div className="navbar-item">
+              <div class="title-subtitle-container">
+                <p className="title">Milan Standup Comedy Map</p>
+                <p className="subtitle">Perform comedy near you</p>
+              </div>
+            </div>
+            <div
+              className="navbar-burger"
+              onClick={() =>
+                document
+                  .getElementById("nav-links")
+                  .classList.toggle("is-active")
+              }
+            >
+              <BsCaretDownSquareFill fontSize="3em" />
+            </div>
           </div>
         </div>
         <div className="navbar-menu" id="nav-links">
-          <div className="navbar-start">
-            <div className="navbar-item">
-              <p className="title">Milan Standup Comedy Map</p>
-              <p className="subtitle"> - Perform comedy near you</p>
-            </div>
-          </div>
           <div className="navbar-end">
-            <a className="navbar-item" href={GoogleForm}>
+            <a className="navbar-item navbar-item-centered" href={GoogleForm}>
               🎤 Submit an open mic night
             </a>
+            <a class="js-modal-trigger navbar-item-centered" data-target="modal-js-example">
+            ❓ F.A.Q.
+            </a>
             <a
-              className="navbar-item"
+              className="navbar-item navbar-item-centered"
               href="https://www.instagram.com/_anarchytect/"
             >
               📣 Contact me for feedbacks!
@@ -653,6 +664,47 @@ function App() {
     </>
   );
 }
+document.addEventListener('DOMContentLoaded', () => {
+  // Functions to open and close a modal
+  function openModal($el) {
+    $el.classList.add('is-active');
+  }
 
+  function closeModal($el) {
+    $el.classList.remove('is-active');
+  }
+
+  function closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+      closeModal($modal);
+    });
+  }
+
+  // Add a click event on buttons to open a specific modal
+  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+    });
+  });
+
+  // Add a click event on various child elements to close the parent modal
+  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+    const $target = $close.closest('.modal');
+
+    $close.addEventListener('click', () => {
+      closeModal($target);
+    });
+  });
+
+  // Add a keyboard event to close all modals
+  document.addEventListener('keydown', (event) => {
+    if (event.code === 'Escape') {
+      closeAllModals();
+    }
+  });
+});
 const rootElement = document.getElementById("app");
 ReactDOM.render(<App />, rootElement);
