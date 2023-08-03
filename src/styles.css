@@ -28,3 +28,11 @@ span table {
 a[href=''] {
     display: none;
   }
+
+  .is-danger {
+    color: #ff3860; /* Danger color in Bulma */
+  }
+  
+  .is-link {
+    color: #3273dc; /* Link color in Bulma */
+  }

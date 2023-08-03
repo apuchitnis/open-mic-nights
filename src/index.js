@@ -400,7 +400,7 @@ function TableAndMap() {
 }
 
 const InfoWindow = (props) => {
-  const { name } = props;
+  const { name, address,  weekday} = props;
   const infoWindowStyle = {
     position: "relative",
     bottom: 50,
@@ -417,7 +417,8 @@ const InfoWindow = (props) => {
 
   return (
     <div style={infoWindowStyle}>
-      <div style={{ fontSize: 16 }}>{name}</div>
+      <div style={{ fontSize: 14 }}>{name} </div>
+      <div style={{ fontSize: 10 }}>{weekday} at {address}</div>
     </div>
   );
 };
@@ -429,24 +430,19 @@ class MapMarker extends React.Component {
 
   render() {
     const markerStyle = {
-      border: "1px solid white",
-      borderRadius: "50%",
-      height: 0,
-      width: 0,
+      height: 25,
+      width: 25,
       zIndex: 10,
       cursor: "pointer",
     };
     return (
-      <div
-        className={
-          this.props.show
-            ? "has-background-danger"
-            : "has-background-warning"
-        }
-        style={markerStyle}
-      >
-        <PiMicrophoneStageFill color="#3273dc" fontSize="20px" />
-        {this.props.show && <InfoWindow name={this.props.name} />}
+      <div >
+        <PiMicrophoneStageFill style={markerStyle} className={
+          this.props.status === "Active"
+            ? "is-link"
+            : "is-danger"
+        }  />
+        {this.props.show && <InfoWindow name={this.props.name} address={this.props.address} weekday={this.props.weekday}  status={this.props.status}/>}
       </div>
     );
   }
@@ -514,7 +510,7 @@ class Map extends React.Component {
         <GoogleMapReact
           bootstrapURLKeys={{ key: ApiKey }}
           defaultCenter={{ lat: 45.463336, lng: 9.187174 }}
-          defaultZoom={13}
+          defaultZoom={12.8}
           onChildClick={this._onChildClick}
         >
           {this.state.results.map((item) => (
@@ -522,7 +518,10 @@ class Map extends React.Component {
               key={item.original.RowNumber}
               lat={item.original.Latitude}
               lng={item.original.Longitude}
+              address={item.original.Address}
+              weekday={item.original.Weekday}
               name={item.original.Name}
+              status={item.original.Status}
               show={item.show}
             />
           ))}
@@ -592,7 +591,7 @@ function App() {
           </a>
           <div className="navbar-start">
             <div className="navbar-item">
-              <div class="title-subtitle-container">
+              <div className="title-subtitle-container">
                 <p className="title">Milan Standup Comedy Map</p>
                 <p className="subtitle">Perform comedy near you</p>
               </div>
@@ -614,7 +613,7 @@ function App() {
             <a className="navbar-item navbar-item-centered" href={GoogleForm}>
               🎤 Submit an open mic night
             </a>
-            <a class="js-modal-trigger navbar-item-centered" data-target="modal-js-example">
+            <a className="js-modal-trigger navbar-item-centered" data-target="modal-js-example">
             ❓ F.A.Q.
             </a>
             <a
