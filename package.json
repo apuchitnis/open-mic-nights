@@ -1,7 +1,11 @@
 {
   "name": "open-mic-nights",
   "version": "1.0.0",
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+  },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -13,7 +17,8 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "*",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "gh-pages": "^2.2.0"
+    "gh-pages": "^2.2.0",
+    "react-error-overlay": "6.0.9"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
