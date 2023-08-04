@@ -3,17 +3,16 @@ import ReactDOM from "react-dom";
 import "./assets/styles.css";
 
 import TableAndMap from "./TableAndMap";
-import NavigationBar from "./NavigationBar"
+import NavigationBar from "./NavigationBar";
 
 const GitHubURL = "https://github.com/morettimarco/open-mic-nights";
 
 const SpreadsheetId = "1_X_znvg8kGbFMXoys011182T5ZTGONCsveY9uLEWsr8";
-const SpreadsheetURL ="https://docs.google.com/spreadsheets/d/" + SpreadsheetId;
+const SpreadsheetURL =
+  "https://docs.google.com/spreadsheets/d/" + SpreadsheetId;
 
 // This is a custom filter UI for selecting
 // a unique option from a list
-
-
 
 function App() {
   const qna = [
@@ -50,7 +49,7 @@ function App() {
   ];
   return (
     <>
-      <NavigationBar/>
+      <NavigationBar />
 
       <TableAndMap />
 
