@@ -59,6 +59,12 @@ function TableAndMap() {
     isFetching: false,
   });
 
+    const defaultColumnSizing = {
+    size: 1500,
+    minSize: 20,
+    maxSize: Number.MAX_SAFE_INTEGER,
+  }
+
   useEffect(() => {
     (async function () {
       try {
@@ -136,6 +142,9 @@ function TableAndMap() {
         {
           Header: "",
           accessor: "Instagram",
+          maxWidth: 20,
+          minWidth: 20,
+          width: 20,
           disableFilters: true,
           Cell: ({ row }) => {
             return (
@@ -157,6 +166,9 @@ function TableAndMap() {
           Header: "Name",
           accessor: "Name",
           disableFilters: true,
+          maxWidth: 400,
+          minWidth: 300,
+          width: 200,
           Filter: SearchColumnFilter,
         },
         {
@@ -225,6 +237,9 @@ function TableAndMap() {
         {
           Header: "Venue",
           accessor: "Venue",
+          maxWidth: 600,
+          minWidth: 300,
+          width: 400,
           Filter: SearchColumnFilter,
           disableFilters: true,
         },
@@ -237,6 +252,9 @@ function TableAndMap() {
         {
           Header: "Address",
           accessor: "Address",
+           maxWidth: 600,
+          minWidth: 300,
+          width: 400,
           Filter: SearchColumnFilter,
           disableFilters: true,
         },
@@ -335,7 +353,7 @@ function TableAndMap() {
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
+                    <th {...column.getHeaderProps({style: { minWidth: column.minWidth, width: column.width },})}>
                       {column.render("Header")}
                       <div>
                         {column.canFilter ? column.render("Filter") : null}
